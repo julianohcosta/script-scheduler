@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import SideBar from "./components/SideBar";
 import './App.css'
 import {ACOES} from "./acoes";
+import SideBar from "./components/SideBar";
 import Agendar from "./components/Agendar";
 import Agendamento from "./components/Agendamento";
 import Ajuda from "./components/Ajuda";

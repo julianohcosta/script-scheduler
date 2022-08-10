@@ -1,0 +1,12 @@
+.container-agendar {
+    display: flex;
+    flex-direction: column;
+}
+
+.container-agendar--form{
+
+}
+
+.container-agendar--table {
+
+}
