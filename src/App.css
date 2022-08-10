@@ -13,10 +13,28 @@ body {
     transition: background 0.2s linear;
     font-family: var(--font-family);
     color: var(--color-text);
-    background-color: #FFFFFF;
+    background-color: #F9F9F9;
 }
 
 body.dark {
     background-color:#292c35;
     color: var(--color-text-dark);
+}
+
+.grid-container {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+.sidebar {
+    display: table-cell;
+    width: 10%;
+    vertical-align: top;
+}
+
+.content {
+    display: table-cell;
+    width: 90%;
+    vertical-align: top;
 }

@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import SideBar from "./components/SideBar";
 import './App.css'
 import {ACOES} from "./acoes";
-import AgendarForm from "./components/AgendarForm";
-import AgendamentoForm from "./components/AgendamentoForm";
+import Agendar from "./components/Agendar";
+import Agendamento from "./components/Agendamento";
 import Ajuda from "./components/Ajuda";
 import Suporte from "./components/Suporte";
 
@@ -15,10 +15,10 @@ const App = () => {
 
         switch (acao) {
             case ACOES.AGENDAR:
-                setShowedMenu(<AgendarForm/>)
+                setShowedMenu(<Agendar/>)
                 break;
             case ACOES.AGENDAMENTOS:
-                setShowedMenu(<AgendamentoForm/>)
+                setShowedMenu(<Agendamento/>)
                 break;
             case ACOES.AJUDA:
                 setShowedMenu(<Ajuda/>)
@@ -33,13 +33,14 @@ const App = () => {
 
     return (
         <React.StrictMode>
-            <div>
-                <SideBar onClick={onClick}/>
+            <div className='grid-container'>
+                <div className='grid-child'>
+                    <SideBar onClick={onClick}/>
+                </div>
+                <div  className='content'>
+                    {showedMenu}
+                </div>
             </div>
-            <div>
-                {showedMenu}
-            </div>
-
         </React.StrictMode>
     )
 };
