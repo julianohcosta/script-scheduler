@@ -10,6 +10,7 @@ import Semanal from "./components/Semanal";
 import Mensal from "./components/Mensal";
 import SaveButton from "../components/UI/SaveButton";
 import './Agendar.css'
+import AgendarScriptTable from "../components/tables/AgendarScriptTable";
 
 
 const FREQUENCIA = {
@@ -62,6 +63,25 @@ const Agendar = () => {
                             <Form.Control type="text" disabled/>
                         </Col>
                     </Form.Group>
+                    <Form.Group  as={Row} className="mb-3" controlId="formEdtScript">
+                        <Col sm="1"/>
+                        <Col sm="2">
+                            <Form.Label>Editar parâmetros do script</Form.Label>
+                        </Col>
+                        <Col sm="2">
+                            <OverlayTrigger
+                              placement="bottom"
+                              delay={{show: 250, hide: 400}}
+                              overlay={(props) => renderTooltip(props, 'Este script não possui parâmetros')}
+                              defaultShow={false}
+                            >
+                                <Button variant="secondary" type="submit" onClick={onEditParams} className='mx-4'>
+                                    Editar Parâmetros
+                                </Button>
+                            </OverlayTrigger>
+                        </Col>
+
+                    </Form.Group>
                     <Form.Group as={Row} className="mb-3" controlId="formScriptOptions">
                         <Col sm="1"/>
 
@@ -87,27 +107,13 @@ const Agendar = () => {
                                 <span className='mx-0'>
                                     <SaveButton/>
                                 </span>
-                                <span className='my-3'>
-                                    <OverlayTrigger
-                                        placement="bottom"
-                                        delay={{show: 250, hide: 400}}
-                                        overlay={(props) => renderTooltip(props, 'Este script não possui parâmetros')}
-                                        defaultShow={false}
-                                    >
-                                    <Button variant="secondary" type="submit" onClick={onEditParams} className='mx-4'>
-                                        Editar Parâmetros
-                                    </Button>
-                                </OverlayTrigger>
-                                </span>
                             </div>
                         </Col>
                     </Form.Group>
                 </Form>
             </div>
             <div className='container-agendar--table'>
-                <p>
-                    Tabela de scripts
-                </p>
+                <AgendarScriptTable/>
             </div>
         </div>
     )
