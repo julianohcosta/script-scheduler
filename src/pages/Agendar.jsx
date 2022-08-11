@@ -21,10 +21,6 @@ const Agendar = () => {
 
     const [dialogSelector, setDialogSelector] = useState(<Diario/>);
 
-    const onAgendar = (e) => {
-        e.preventDefault();
-    }
-
     const onEditParams = (e) => {
         e.preventDefault();
     }
@@ -81,7 +77,7 @@ const Agendar = () => {
                     <Form.Group as={Row} className="my-3" controlId="fromButtons">
                         <Col sm="2"/>
                         <Col sm="3">
-                            <div className='my-3 editar'>
+                            <div className='editar'>
                                 <span className='mx-0'>
                                     <SaveButton/>
                                 </span>
