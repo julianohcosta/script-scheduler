@@ -1,7 +1,7 @@
 import MenuItem from "./MenuItem";
 import { MdAddTask,  MdHelpOutline, MdMailOutline, MdOutlineSchedule} from "react-icons/md";
 import './Menu.css'
-import {ACOES} from '../../acoes'
+import {ACOES} from '../acoes'
 
 const Menu = props => {
 

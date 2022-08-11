@@ -1,6 +1,6 @@
-import Avatar from "./Avatar";
+import Avatar from "./UI/Avatar";
 import './SideBar.css'
-import Menu from "./UI/Menu";
+import Menu from "./Menu";
 import logoLabin from '../assets/logoLabin.png'
 import {FaMoon, FaSun} from "react-icons/fa";
 

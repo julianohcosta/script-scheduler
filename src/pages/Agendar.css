@@ -4,9 +4,13 @@
 }
 
 .container-agendar--form{
-
+    font-weight: 600;
 }
 
 .container-agendar--table {
 
+}
+
+.editar {
+    display: flex;
 }

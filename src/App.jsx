@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import './App.css'
 import {ACOES} from "./acoes";
 import SideBar from "./components/SideBar";
-import Agendar from "./components/Agendar";
-import Agendamento from "./components/Agendamento";
-import Ajuda from "./components/Ajuda";
-import Suporte from "./components/Suporte";
+import Agendar from "./pages/Agendar";
+import Agendamento from "./pages/Agendamento";
+import Ajuda from "./pages/Ajuda";
+import Suporte from "./pages/Suporte";
 
 const App = () => {
 
@@ -27,6 +27,7 @@ const App = () => {
                 setShowedMenu(<Suporte/>)
                 break;
             default:
+                setShowedMenu(<Ajuda/>)
                 break;
         }
     }

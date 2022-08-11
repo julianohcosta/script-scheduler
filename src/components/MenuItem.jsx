@@ -7,10 +7,9 @@ const MenuItem = props => {
                 <span className='sidebar-list-item-icon'>
                     {props.icon}
                 </span>
-                <div className='list--item-text'>
+                <div className='list--item-text my-1'>
                     {props.text}
                 </div>
-
             </li>
         </>
     )
