@@ -7,7 +7,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import SaveIcon from '@mui/icons-material/Save';
 import {useEffect, useRef, useState} from "react";
 
-const SaveButton = () => {
+const SaveButton = props => {
 
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -35,6 +35,9 @@ const SaveButton = () => {
             timer.current = window.setTimeout(() => {
                 setSuccess(true);
                 setLoading(false);
+
+                props.onSave(success);
+
             }, 2000);
         }
     };

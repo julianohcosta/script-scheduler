@@ -1,42 +1,45 @@
 import {useTable} from 'react-table'
 import {useMemo} from "react";
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 
 const AgendarScriptTable = () => {
   const data = useMemo(
     () => [
       {
-        col1: 'Hello',
-        col2: 'World',
-        col3: 'World',
-        col4: 'World',
-      },
-      {
-        col1: 'react-table',
-        col2: 'rocks',
-        col3: 'World',
-        col4: 'World',
-      },
-      {
-        col1: 'whatever',
-        col2: 'you want',
-        col3: 'World',
-        col4: 'World',
-      },
-      {
-        col1: 'whatever',
-        col2: 'you want',
-        col3: 'World',
-        col4: 'World',
-      },
-      {
-        col1: 'whatever',
-        col2: 'you want',
-        col3: 'World',
-        col4: 'World',
-      },
+      "linguagem": "Python/JEP",
+      "nome": "1 Labin01 - SiefWeb -  Malha PF - Informar Evento",
+      "params": [
+
     ],
+      "autor": "ELVIS CAICARA DA SILVA",
+      "dataAlteracao": "18/02/2021"
+  },
+  {
+    "linguagem": "Python",
+    "nome": "1 Labin01 - SiefWeb - Malha PF - cadastrar Processo",
+    "params": [
+
+    ],
+    "autor": "ELVIS CAICARA DA SILVA",
+    "dataAlteracao": "18/02/2021"
+  },
+  {
+    "linguagem": "Python",
+    "nome": "1 SIEF mapear tela - ok",
+    "params": [
+
+    ],
+    "autor": "ELVIS CAICARA DA SILVA",
+    "dataAlteracao": "17/11/2020"
+  },
+  {
+    "linguagem": "Python",
+    "nome": "1 SIEF mapear tela 1.1",
+    "params": [
+
+    ],
+    "autor": "ELVIS CAICARA DA SILVA",
+    "dataAlteracao": "24/11/2020"
+  },   ],
     []
   )
 
@@ -44,19 +47,19 @@ const AgendarScriptTable = () => {
     () => [
       {
         Header: 'Nome do Script',
-        accessor: 'col1', // accessor is the "key" in the data
+        accessor: 'nome', // accessor is the "key" in the data
       },
       {
         Header: 'Autor',
-        accessor: 'col2',
+        accessor: 'autor',
       },
       {
         Header: 'Linguagem',
-        accessor: 'col3',
+        accessor: 'linguagem',
       },
       {
         Header: 'Data da Última Alteração',
-        accessor: 'col4',
+        accessor: 'dataAlteracao',
       },
     ],
     []

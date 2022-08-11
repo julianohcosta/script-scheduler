@@ -8,9 +8,10 @@ import Col from 'react-bootstrap/Col';
 import Diario from "./components/Diario";
 import Semanal from "./components/Semanal";
 import Mensal from "./components/Mensal";
-import SaveButton from "../components/UI/SaveButton";
-import './Agendar.css'
+import SaveButton from "./components/SaveButton";
+import Alert from 'react-bootstrap/Alert';
 import AgendarScriptTable from "../components/tables/AgendarScriptTable";
+import './Agendar.css'
 
 
 const FREQUENCIA = {
@@ -22,6 +23,12 @@ const FREQUENCIA = {
 const Agendar = () => {
 
   const [dialogSelector, setDialogSelector] = useState(<Diario/>);
+  const [showAlert, setShowAlert] = useState(false);
+
+  const saveIconHandler = (sucess) => {
+    console.log(sucess)
+    setShowAlert(sucess)
+  }
 
   const onEditParams = (e) => {
     e.preventDefault();
@@ -66,7 +73,7 @@ const Agendar = () => {
           <Form.Group as={Row} className="mb-3" controlId="formEdtScript">
             <Col sm="1"/>
             <Col sm="2">
-              <Form.Label>Editar parâmetros do script</Form.Label>
+              <Form.Label className='mt-2'>Editar parâmetros do script</Form.Label>
             </Col>
             <Col sm="2">
               <OverlayTrigger
@@ -102,23 +109,21 @@ const Agendar = () => {
           </Form.Group>
           <Form.Group as={Row} className="my-3" controlId="fromButtons">
             <Col sm="1"/>
-            <Col sm="3">
-              <div className='editar'>
-                <span className='mx-0'>
-                      <SaveButton/>
-                  </span>
-              </div>
+            <Col sm="1">
+              <SaveButton onSave={saveIconHandler}/>
+            </Col>
+            <Col sm="7">
+              {showAlert && <Alert key={`0101`} variant={`danger`} onClose={() => setShowAlert(false)}  dismissible>Error!!</Alert>}
             </Col>
           </Form.Group>
         </Form>
       </div>
       <div className='container-agendar--table'>
-        <Row className="mb-3 m-lg-5 m-md-5">
+        <Row className="mb-3 mx-4">
           <Col sm='1'/>
-          <Col sm='10'>
+          <Col sm='8'>
             <AgendarScriptTable/>
           </Col>
-          <Col sm='1'/>
         </Row>
       </div>
     </div>
