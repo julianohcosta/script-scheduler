@@ -71,9 +71,7 @@ const AgendarScriptTable = () => {
   } = useTable({columns, data})
 
   return (
-    <Row className="mb-3 m-lg-5 m-md-5">
-      <Col sm='1'/>
-      <Col sm='10'>
+
         <table {...getTableProps()} style={{border: 'solid 1px blue'}}>
           <thead>
           {headerGroups.map(headerGroup => (
@@ -118,9 +116,6 @@ const AgendarScriptTable = () => {
           })}
           </tbody>
         </table>
-      </Col>
-      <Col sm='1'/>
-    </Row>
   )
 }
 
