@@ -3,9 +3,9 @@ import Typography from '@mui/material/Typography';
 
 const Ajuda = () => {
     return (
-        <Box sx={{ width: '100%', maxWidth: '60%' }} ml={8} >
+        <Box sx={{ width: '100%', maxWidth: '65%' }} ml={8} >
             <Typography variant="h1" component="div" gutterBottom className='fw-bold'>
-                Agendador de Scripts
+                Agendamento de Scripts
             </Typography>
             <Typography variant="h2" gutterBottom component="div">
                 Como utilizar este script

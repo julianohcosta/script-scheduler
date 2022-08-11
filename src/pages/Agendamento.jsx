@@ -9,17 +9,17 @@ const Agendamento = () => {
         <div>
             <Tooltip title="Editar">
                 <IconButton aria-label="edit">
-                    <EditIcon />
+                    <EditIcon color='info'/>
                 </IconButton>
             </Tooltip>
             <Tooltip title="Executar">
                 <IconButton aria-label="play">
-                    <PlayCircleIcon />
+                    <PlayCircleIcon color='info'/>
                 </IconButton>
             </Tooltip>
             <Tooltip title="Deletar">
                 <IconButton aria-label="delete">
-                    <DeleteIcon />
+                    <DeleteIcon color='warning'/>
                 </IconButton>
             </Tooltip>
         </div>
