@@ -49,8 +49,8 @@ const Agendar = () => {
       setShowSucess(true)
 
     } else {
-      setShowError(true)
       setmessage(message)
+      setShowError(true)
     }
   }
 
@@ -58,6 +58,10 @@ const Agendar = () => {
     e.preventDefault();
   }
 
+  /**
+   *
+   * @param {String} time
+   */
   function horarioHandler(time){
     setHorario(time);
   }
