@@ -4,10 +4,7 @@ import './Avatar.css'
 
 const Avatar = () => {
 
-  const [user, setUser] = useState({
-    username: 'Usuário',
-    cargo: 'null'
-  });
+  const [username, setusername] = useState('Usuário');
 
   useEffect(() => {
 
@@ -15,14 +12,14 @@ const Avatar = () => {
       .then(response => response.json())
       .then(user => {
         if (user.username) {
-          setUser(user)
+          setusername(user.username);
         }
       })
       .catch(e => {
         console.log(e)
       })
 
-  }, [user]);
+  }, [username]);
 
   return (
     <div className='profile'>
@@ -31,10 +28,10 @@ const Avatar = () => {
         <img src={userLogo} alt="profile"/>
       </div>
       <div className='name mb-1'>
-        {user.username}
+        {username}
       </div>
       <div className='position'>
-        {user.cargo}
+        {/*{user.cargo}*/}
       </div>
     </div>
   )

@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useRef, useState} from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -22,15 +22,35 @@ const FREQUENCIA = {
 
 const Agendar = () => {
 
-  const [dialogSelector, setDialogSelector] = useState(<Diario/>);
+  const diario = <Diario onTimerset={horarioHandler}/>
+
+  const [dialogSelector, setDialogSelector] = useState(diario);
   const [showSucess, setShowSucess] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [scriptName, setScriptName] = useState('hello');
+  const [taskName, setTaskName] = useState('');
+  const [frequencia, setFrequencia] = useState(FREQUENCIA.DIARIA);
+  const [dia, setDia] = useState('');
+  const [horario, setHorario] = useState('');
+  const [message, setmessage] = useState('');
 
-  const saveIconHandler = (sucess) => {
+  const scriptNameRef = useRef();
+  const taskNameRef = useRef();
+
+  /**
+   *
+   * @param {boolean} sucess
+   * @param {String} message
+   */
+  const saveTaskHandler = (sucess, message) => {
+
     if (sucess){
+      setmessage(message)
       setShowSucess(true)
+
     } else {
       setShowError(true)
+      setmessage(message)
     }
   }
 
@@ -38,21 +58,26 @@ const Agendar = () => {
     e.preventDefault();
   }
 
+  function horarioHandler(time){
+    setHorario(time);
+  }
+
   const changeHandler = (event) => {
+
     const frequencia = event.target.value;
+    setFrequencia(frequencia);
 
     switch (frequencia) {
       case FREQUENCIA.DIARIA:
-        setDialogSelector(<Diario/>)
+        setDialogSelector(diario)
         break;
       case FREQUENCIA.SEMANAL:
-        setDialogSelector(<Semanal/>)
+        setDialogSelector(<Semanal onTimerset={horarioHandler}/>)
         break;
       case FREQUENCIA.MENSAL:
-        setDialogSelector(<Mensal/>)
+        setDialogSelector(<Mensal onTimerset={horarioHandler}/>)
         break;
       default:
-        setDialogSelector(<Diario/>)
         break;
     }
   }
@@ -67,40 +92,39 @@ const Agendar = () => {
     <div className='container-agendar'>
       <div className='container-agendar--form'>
         <Form className='m-lg-5 m-md-5'>
+
           <Form.Group as={Row} className="mb-3" controlId="formScriptData">
             <Col sm="1"/>
             <Col sm="8">
-              <Form.Label>Nome do Script a ser executado</Form.Label>
-              <Form.Control type="text" disabled/>
+              <Form.Label>Nome do script a ser executado</Form.Label>
+              <Form.Control ref={scriptNameRef} type="text" disabled defaultValue={scriptName}/>
             </Col>
           </Form.Group>
+
           <Form.Group as={Row} className="mb-3" controlId="formEdtScript">
             <Col sm="1"/>
             <Col sm="2">
-              <Form.Label className='mt-2'>Editar parâmetros do script</Form.Label>
+              <Form.Label className='mt-2'>Parâmetros do Script</Form.Label>
             </Col>
             <Col sm="2">
               <OverlayTrigger
                 placement="bottom"
                 delay={{show: 250, hide: 400}}
                 overlay={(props) => renderTooltip(props, 'Este script não possui parâmetros')}
-                defaultShow={false}
-              >
+                defaultShow={false}>
                 <Button variant="secondary" type="submit" onClick={onEditParams} className='mx-4'>
                   Editar Parâmetros
                 </Button>
               </OverlayTrigger>
             </Col>
-
           </Form.Group>
+
           <Form.Group as={Row} className="mb-3" controlId="formScriptOptions">
             <Col sm="1"/>
-
             <Col sm='2'>
               <Form.Label>Nome da Tarefa</Form.Label>
-              <Form.Control type="text"/>
+              <Form.Control type="text" ref={taskNameRef} onChange={(e) => setTaskName(e.target.value)}/>
             </Col>
-
             <Col sm="2">
               <Form.Label className='mx-1'>Frequência</Form.Label>
               <Form.Select onChange={changeHandler} defaultValue={FREQUENCIA.DIARIA}>
@@ -111,18 +135,30 @@ const Agendar = () => {
             </Col>
             {dialogSelector}
           </Form.Group>
+
           <Form.Group as={Row} className="my-3" controlId="fromButtons">
             <Col sm="1"/>
             <Col sm="1">
-              <SaveButton onSave={saveIconHandler}/>
+              <SaveButton
+                onSave={saveTaskHandler}
+                setShowSucess={setShowSucess}
+                setShowError={setShowError}
+                taskName={taskName}
+                frequencia={frequencia}
+                dia={dia}
+                horario={horario}
+                scriptName={scriptName}
+              />
             </Col>
             <Col sm="7">
-              {showSucess && <Alert key={`0101`} variant={`primary`} onClose={() => setShowSucess(false)}  dismissible>Sucess!!</Alert>}
-              {showError && <Alert key={`0101`} variant={`danger`} onClose={() => setShowError(false)}  dismissible>Error!!</Alert>}
+              {showSucess && <Alert key={`0101`} variant={`primary`} onClose={() => setShowSucess(false)}  dismissible>{message}</Alert>}
+              {showError && <Alert key={`0101`} variant={`danger`} onClose={() => setShowError(false)}  dismissible>{message}</Alert>}
             </Col>
           </Form.Group>
+
         </Form>
       </div>
+
       <div className='container-agendar--table'>
         <Row className="mb-3 mx-4">
           <Col sm='1'/>
