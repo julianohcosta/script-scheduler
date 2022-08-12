@@ -1,21 +1,36 @@
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import {green} from '@mui/material/colors';
+import {green, red} from '@mui/material/colors';
 import Fab from '@mui/material/Fab';
 import CheckIcon from '@mui/icons-material/Check';
 import SaveIcon from '@mui/icons-material/Save';
-import {useState} from "react";
+import ErrorIcon from '@mui/icons-material/Error';
+import {useEffect, useState} from "react";
 
 const SaveButton = props => {
 
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    setError(false);
+    setSuccess(false);
+  }, [props.resetBtn]);
+
+
 
   const buttonSx = {
     ...(success && {
       bgcolor: green[500],
       '&:hover': {
         bgcolor: green[700],
+      },
+    }),
+    ...(error && {
+      bgcolor: red[500],
+      '&:hover': {
+        bgcolor: red[700],
       },
     }),
   };
@@ -41,14 +56,19 @@ const SaveButton = props => {
     fetch(url)
       .then(response => response.json())
       .then(tarefa => {
-        if(tarefa.status){
+
+        if (tarefa.status) {
 
           setSuccess(true);
           setLoading(false);
           props.onSave(true, tarefa.message);
+
         } else {
+
           setSuccess(false);
           setLoading(false);
+          setError(true);
+
           props.onSave(false, tarefa.message);
         }
       })
@@ -80,7 +100,7 @@ const SaveButton = props => {
           sx={buttonSx}
           onClick={handleButtonClick}
         >
-          {success ? <CheckIcon/> : <SaveIcon/>}
+          {success ? <CheckIcon/> : error ? <ErrorIcon/> : <SaveIcon/>}
         </Fab>
         {loading && (
           <CircularProgress

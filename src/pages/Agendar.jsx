@@ -33,12 +33,12 @@ const Agendar = () => {
   const [dia, setDia] = useState('');
   const [horario, setHorario] = useState('');
   const [message, setmessage] = useState('');
+  const [resetBtn, setResetBtn] = useState(false);
 
   const scriptNameRef = useRef();
   const taskNameRef = useRef();
 
   /**
-   *
    * @param {boolean} sucess
    * @param {String} message
    */
@@ -59,7 +59,6 @@ const Agendar = () => {
   }
 
   /**
-   *
    * @param {String} time
    */
   function horarioHandler(time){
@@ -147,6 +146,7 @@ const Agendar = () => {
                 onSave={saveTaskHandler}
                 setShowSucess={setShowSucess}
                 setShowError={setShowError}
+                resetBtn={resetBtn}
                 taskName={taskName}
                 frequencia={frequencia}
                 dia={dia}
@@ -155,8 +155,14 @@ const Agendar = () => {
               />
             </Col>
             <Col sm="7">
-              {showSucess && <Alert key={`0101`} variant={`primary`} onClose={() => setShowSucess(false)}  dismissible>{message}</Alert>}
-              {showError && <Alert key={`0101`} variant={`danger`} onClose={() => setShowError(false)}  dismissible>{message}</Alert>}
+              {showSucess && <Alert key={`0101`} variant={`primary`} onClose={() => {
+                setShowSucess(false);
+                setResetBtn(prevValue => !prevValue)
+              }}  dismissible>{message}</Alert>}
+              {showError && <Alert key={`0101`} variant={`danger`} onClose={() => {
+                setShowError(false);
+                setResetBtn(prevValue => !prevValue)
+              }}  dismissible>{message}</Alert>}
             </Col>
           </Form.Group>
 
