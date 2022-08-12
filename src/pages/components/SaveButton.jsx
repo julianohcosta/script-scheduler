@@ -1,11 +1,12 @@
+import {useEffect, useState} from "react";
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 import {green, red} from '@mui/material/colors';
 import Fab from '@mui/material/Fab';
 import CheckIcon from '@mui/icons-material/Check';
 import SaveIcon from '@mui/icons-material/Save';
 import ErrorIcon from '@mui/icons-material/Error';
-import {useEffect, useState} from "react";
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 const SaveButton = props => {
 
@@ -75,20 +76,6 @@ const SaveButton = props => {
       .catch(e => {
         console.log(e);
       })
-
-    // props.onSave(false);
-
-    // if (!loading) {
-    //     setSuccess(false);
-    //     setLoading(true);
-    //     timer.current = window.setTimeout(() => {
-    //         setSuccess(true);
-    //         setLoading(false);
-    //
-    //         props.onSave(false);
-    //
-    //     }, 2000);
-    // }
   };
 
   return (
