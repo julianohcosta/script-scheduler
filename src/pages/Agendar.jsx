@@ -23,11 +23,15 @@ const FREQUENCIA = {
 const Agendar = () => {
 
   const [dialogSelector, setDialogSelector] = useState(<Diario/>);
-  const [showAlert, setShowAlert] = useState(false);
+  const [showSucess, setShowSucess] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const saveIconHandler = (sucess) => {
-    console.log(sucess)
-    setShowAlert(sucess)
+    if (sucess){
+      setShowSucess(true)
+    } else {
+      setShowError(true)
+    }
   }
 
   const onEditParams = (e) => {
@@ -113,7 +117,8 @@ const Agendar = () => {
               <SaveButton onSave={saveIconHandler}/>
             </Col>
             <Col sm="7">
-              {showAlert && <Alert key={`0101`} variant={`danger`} onClose={() => setShowAlert(false)}  dismissible>Error!!</Alert>}
+              {showSucess && <Alert key={`0101`} variant={`primary`} onClose={() => setShowSucess(false)}  dismissible>Sucess!!</Alert>}
+              {showError && <Alert key={`0101`} variant={`danger`} onClose={() => setShowError(false)}  dismissible>Error!!</Alert>}
             </Col>
           </Form.Group>
         </Form>

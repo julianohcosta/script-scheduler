@@ -36,7 +36,7 @@ const SaveButton = props => {
                 setSuccess(true);
                 setLoading(false);
 
-                props.onSave(success);
+                props.onSave(false);
 
             }, 2000);
         }
