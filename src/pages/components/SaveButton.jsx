@@ -38,6 +38,9 @@ const SaveButton = props => {
 
   const handleButtonClick = () => {
 
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     props.setShowSucess(false);
     props.setShowError(false);
 
@@ -54,7 +57,7 @@ const SaveButton = props => {
 
     console.log(url);
 
-    fetch(url)
+    fetch(url, { signal })
       .then(response => response.json())
       .then(tarefa => {
 
@@ -64,18 +67,32 @@ const SaveButton = props => {
           setLoading(false);
           props.onSave(true, tarefa.message);
 
-        } else {
+        } else if  (tarefa.status === false) {
 
           setSuccess(false);
           setLoading(false);
           setError(true);
 
           props.onSave(false, tarefa.message);
+        } else {
+          setSuccess(false);
+          setLoading(false);
+          setError(true);
+
+          props.onSave(false, `Um erro inesperado ocorreu`);
         }
       })
       .catch(e => {
         console.log(e);
+        setSuccess(false);
+        setLoading(false);
+        setError(true);
+
+        props.onSave(false, `Um erro inesperado ocorreu`);
       })
+    return () => {
+      controller.abort();
+    }
   };
 
   return (

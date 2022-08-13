@@ -12,7 +12,6 @@ import Mensal from "./components/Mensal";
 import SaveButton from "./components/SaveButton";
 import AgendarScriptTable from "../components/tables/AgendarScriptTable";
 import './Agendar.css'
-import EditDlg from "./components/EditDlg";
 
 
 const FREQUENCIA = {
@@ -28,7 +27,7 @@ const Agendar = () => {
   const [dialogSelector, setDialogSelector] = useState(diario);
   const [showSucess, setShowSucess] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [scriptName, setScriptName] = useState('hello');
+  const [scriptName, setScriptName] = useState('');
   const [taskName, setTaskName] = useState('');
   const [frequencia, setFrequencia] = useState(FREQUENCIA.DIARIA);
   const [dia, setDia] = useState('');
@@ -64,6 +63,10 @@ const Agendar = () => {
    */
   function horarioHandler(time) {
     setHorario(time);
+  }
+
+  const clickTableRowHandler = (row) => {
+    setScriptName(row.cells[0].value);
   }
 
   const changeHandler = (event) => {
@@ -103,7 +106,7 @@ const Agendar = () => {
               <Col sm="1"/>
               <Col sm="8">
                 <Form.Label>Nome do script a ser executado</Form.Label>
-                <Form.Control ref={scriptNameRef} type="text" disabled defaultValue={scriptName}/>
+                <Form.Control ref={scriptNameRef} type="text" disabled value={scriptName}/>
               </Col>
             </Form.Group>
 
@@ -129,7 +132,10 @@ const Agendar = () => {
               <Col sm="1"/>
               <Col sm='2'>
                 <Form.Label>Nome da Tarefa</Form.Label>
-                <Form.Control type="text" ref={taskNameRef} onChange={(e) => setTaskName(e.target.value)}/>
+                <Form.Control
+                  type="text"
+                  ref={taskNameRef}
+                  onChange={(e) => setTaskName(e.target.value)}/>
               </Col>
               <Col sm="2">
                 <Form.Label className='mx-1'>Frequência</Form.Label>
@@ -173,11 +179,9 @@ const Agendar = () => {
         </div>
 
         <div className='container-agendar--table'>
-          <Row className="mb-3 mx-4">
-            <Col sm='1'/>
-            <Col sm='8'>
-              <AgendarScriptTable/>
-            </Col>
+
+          <Row className="mb-3 mx-5">
+            <AgendarScriptTable getCellValue={clickTableRowHandler}/>
           </Row>
         </div>
       </div>
