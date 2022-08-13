@@ -1,9 +1,9 @@
 const GlobalFilterComponent = ({ filter, setFilter }) => {
   return (
     <span style={{
-      fontSize:'1.5em',
+      fontSize:'1.3em',
       fontWeight: 'bold',
-      marginBottom: '5px'
+      marginBottom: '8px'
     }
     }>
       Buscar:{" "}
