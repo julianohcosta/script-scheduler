@@ -1,4 +1,4 @@
-import {useGlobalFilter, useTable} from 'react-table'
+import {useGlobalFilter, useTable, usePagination} from 'react-table'
 import {useMemo} from "react";
 
 import './AgendarScript.module.css'
@@ -65,13 +65,21 @@ const AgendarScriptTable = props => {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
+    page, // use page instead rows for pagination
+    nextPage,
+    previousPage,
+    canNextPage,
+    canPreviousPage,
+    pageOptions,
+    gotoPage,
+    pageCount,
+    setPageSize,
     prepareRow,
     state,
     setGlobalFilter
-  } = useTable({columns, data}, useGlobalFilter)
+  } = useTable({columns, data}, useGlobalFilter, usePagination)
 
-  const {globalFilter} = state;
+  const { pageSize, pageIndex, globalFilter } = state;
 
   return (
     <>
@@ -94,7 +102,7 @@ const AgendarScriptTable = props => {
         ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-        {rows.map(row => {
+        {page.map(row => {
           prepareRow(row)
           return (
             <tr {...row.getRowProps()} onClick={() => props.getCellValue(row)}>
@@ -112,6 +120,52 @@ const AgendarScriptTable = props => {
         })}
         </tbody>
       </table>
+      <div>
+        <span>
+          Página{" "}
+          <strong>
+            {pageIndex + 1} de {pageOptions.length}
+          </strong>
+        </span>
+        <span>
+          | Ir para página:{" "}
+          <input
+            type="number"
+            defaultValue={pageIndex + 1}
+            onChange={e => {
+              const pageNumber = e.target.value
+                ? Number(e.target.value) - 1
+                : 0;
+              gotoPage(pageNumber);
+            }}
+            style={{ width: "50px" }}
+          />
+        </span>
+        <select
+          value={pageSize}
+          onChange={e => {
+            setPageSize(Number(e.target.value));
+          }}
+        >
+          {[10, 20, 30, 40].map(pageSize => (
+            <option key={pageSize} value={pageSize}>
+              Mostrar {pageSize}
+            </option>
+          ))}
+        </select>
+        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className='px-2 fw-bold'>
+          {" << "}
+        </button>
+        <button onClick={() => previousPage()} disabled={!canPreviousPage} className='px-2 fw-bold'>
+          Anterior
+        </button>
+        <button onClick={() => nextPage()} disabled={!canNextPage} className='px-2 fw-bold'>
+          Próxima
+        </button>
+        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} className='px-2 fw-bold'>
+          {" >> "}
+        </button>
+      </div>
     </>
   )
 }

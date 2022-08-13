@@ -6,7 +6,7 @@ const GlobalFilterComponent = ({ filter, setFilter }) => {
       marginBottom: '8px'
     }
     }>
-      Buscar:{" "}
+      Filtrar:{" "}
       <input
         value={filter || ""}
         onChange={e => {
