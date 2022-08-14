@@ -128,7 +128,7 @@ const AgendarScriptTable = props => {
           </strong>
         </span>
         <span>
-          | Ir para página:{" "}
+          {" "}|{" "} Ir para página:{" "}
           <input
             type="number"
             defaultValue={pageIndex + 1}
@@ -146,20 +146,20 @@ const AgendarScriptTable = props => {
           onChange={e => {
             setPageSize(Number(e.target.value));
           }}
-        >
+          className='mx-1'>
           {[10, 20, 30, 40].map(pageSize => (
             <option key={pageSize} value={pageSize}>
               Mostrar {pageSize}
             </option>
           ))}
         </select>
-        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className='px-2 fw-bold'>
+        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className='px-2 mx-2 fw-bold'>
           {" << "}
         </button>
         <button onClick={() => previousPage()} disabled={!canPreviousPage} className='px-2 fw-bold'>
           Anterior
         </button>
-        <button onClick={() => nextPage()} disabled={!canNextPage} className='px-2 fw-bold'>
+        <button onClick={() => nextPage()} disabled={!canNextPage} className='px-2 mx-2 fw-bold'>
           Próxima
         </button>
         <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} className='px-2 fw-bold'>
