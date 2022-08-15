@@ -38,28 +38,7 @@ const AgendarScriptTable = props => {
       },],
     []
   )
-
-  const columns = useMemo(
-    () => [
-      {
-        Header: 'Nome do Script',
-        accessor: 'nome', // accessor is the "key" in the data
-      },
-      {
-        Header: 'Autor',
-        accessor: 'autor',
-      },
-      {
-        Header: 'Linguagem',
-        accessor: 'linguagem',
-      },
-      {
-        Header: 'Data da Última Alteração',
-        accessor: 'dataAlteracao',
-      },
-    ],
-    []
-  )
+  const columns = props.columns;
 
   const {
     getTableProps,

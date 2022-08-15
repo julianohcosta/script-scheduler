@@ -52,7 +52,8 @@ const SaveButton = props => {
       '&scriptname=' + props.scriptName +
       '&frequencia=' + props.frequencia +
       '&horario=' + props.horario +
-      '&dia=&params='
+      '&dia='+ props.dia +
+      '&params='
     )
 
     console.log(url);

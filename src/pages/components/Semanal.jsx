@@ -17,7 +17,10 @@ const Semanal = props => {
     <>
       <Col sm='2'>
         <Form.Label className='mx-1'>Dia da Semana</Form.Label>
-        <Form.Select defaultValue={WEEKDAY.SEGUNDA} aria-label="Day selector">
+        <Form.Select
+          defaultValue={WEEKDAY.SEGUNDA}
+          aria-label="Day selector"
+          onChange={(e) => props.onDiaSelect(e.target.value)}>
           <option value='0'>{WEEKDAY.SEGUNDA}</option>
           <option value='1'>{WEEKDAY.TERCA}</option>
           <option value='2'>{WEEKDAY.QUARTA}</option>

@@ -1,4 +1,4 @@
-import {useRef, useState} from "react";
+import {useMemo, useRef, useState} from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -38,6 +38,28 @@ const Agendar = () => {
   const scriptNameRef = useRef();
   const taskNameRef = useRef();
 
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Nome do Script',
+        accessor: 'nome', // accessor is the "key" in the data
+      },
+      {
+        Header: 'Autor',
+        accessor: 'autor',
+      },
+      {
+        Header: 'Linguagem',
+        accessor: 'linguagem',
+      },
+      {
+        Header: 'Data da Última Alteração',
+        accessor: 'dataAlteracao',
+      },
+    ],
+    []
+  )
+
   /**
    * @param {boolean} sucess
    * @param {String} message
@@ -65,6 +87,10 @@ const Agendar = () => {
     setHorario(time);
   }
 
+  const diaSelecthandler = (dia) => {
+    setDia(dia);
+  }
+
   const clickTableRowHandler = (row) => {
     setScriptName(row.cells[0].value);
   }
@@ -79,10 +105,10 @@ const Agendar = () => {
         setDialogSelector(diario)
         break;
       case FREQUENCIA.SEMANAL:
-        setDialogSelector(<Semanal onTimerset={horarioHandler}/>)
+        setDialogSelector(<Semanal onTimerset={horarioHandler} onDiaSelect={diaSelecthandler}/>)
         break;
       case FREQUENCIA.MENSAL:
-        setDialogSelector(<Mensal onTimerset={horarioHandler}/>)
+        setDialogSelector(<Mensal onTimerset={horarioHandler} onDiaSelect={diaSelecthandler}/>)
         break;
       default:
         break;
@@ -181,7 +207,7 @@ const Agendar = () => {
         <div className='container-agendar--table'>
 
           <Row className="mb-3 mx-5">
-            <AgendarScriptTable getCellValue={clickTableRowHandler}/>
+            <AgendarScriptTable getCellValue={clickTableRowHandler} columns={columns}/>
           </Row>
         </div>
       </div>

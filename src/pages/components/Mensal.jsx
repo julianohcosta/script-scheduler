@@ -9,7 +9,7 @@ const Mensal = props => {
     <>
       <Col sm='1'>
         <Form.Label className='mx-1'>Dia do Mês</Form.Label>
-        <Form.Select defaultValue='1' aria-label="Day selector">
+        <Form.Select defaultValue='1' aria-label="Day selector" onChange={(e) => props.onDiaSelect(e.target.value)}>
           {[...Array(30).keys()].map(i => {
             i += 1;
             return <option key={i} value={i}>{i}</option>
