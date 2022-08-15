@@ -1,44 +1,12 @@
-import {useGlobalFilter, useTable, usePagination} from 'react-table'
-import {useMemo} from "react";
+import {useGlobalFilter, usePagination, useTable} from 'react-table'
 
-import './AgendarScript.module.css'
+import './ScriptsTable.module.css'
 import GlobalFilterComponent from "./GlobalFilter";
 
-const AgendarScriptTable = props => {
-
-  const data = useMemo(
-    () => [
-      {
-        "linguagem": "Python/JEP",
-        "nome": "1 Labin01 - SiefWeb -  Malha PF - Informar Evento",
-        "params": [],
-        "autor": "ELVIS CAICARA DA SILVA",
-        "dataAlteracao": "18/02/2021"
-      },
-      {
-        "linguagem": "Python",
-        "nome": "1 Labin01 - SiefWeb - Malha PF - cadastrar Processo",
-        "params": [],
-        "autor": "ELVIS CAICARA DA SILVA",
-        "dataAlteracao": "18/02/2021"
-      },
-      {
-        "linguagem": "Python",
-        "nome": "1 SIEF mapear tela - ok",
-        "params": [],
-        "autor": "ELVIS CAICARA DA SILVA",
-        "dataAlteracao": "17/11/2020"
-      },
-      {
-        "linguagem": "Python",
-        "nome": "1 SIEF mapear tela 1.1",
-        "params": [],
-        "autor": "ELVIS CAICARA DA SILVA",
-        "dataAlteracao": "24/11/2020"
-      },],
-    []
-  )
+const ScriptsTable = props => {
   const columns = props.columns;
+  const data = props.data;
+
 
   const {
     getTableProps,
@@ -58,7 +26,7 @@ const AgendarScriptTable = props => {
     setGlobalFilter
   } = useTable({columns, data}, useGlobalFilter, usePagination)
 
-  const { pageSize, pageIndex, globalFilter } = state;
+  const {pageSize, pageIndex, globalFilter} = state;
 
   return (
     <>
@@ -117,7 +85,7 @@ const AgendarScriptTable = props => {
                 : 0;
               gotoPage(pageNumber);
             }}
-            style={{ width: "50px" }}
+            style={{width: "50px"}}
           />
         </span>
         <select
@@ -149,4 +117,4 @@ const AgendarScriptTable = props => {
   )
 }
 
-export default AgendarScriptTable;
+export default ScriptsTable;

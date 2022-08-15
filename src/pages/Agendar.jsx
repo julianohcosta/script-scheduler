@@ -10,7 +10,7 @@ import Diario from "./components/Diario";
 import Semanal from "./components/Semanal";
 import Mensal from "./components/Mensal";
 import SaveButton from "./components/SaveButton";
-import AgendarScriptTable from "../components/tables/AgendarScriptTable";
+import ScriptsTable from "../components/tables/ScriptsTable";
 import './Agendar.css'
 
 
@@ -38,6 +38,7 @@ const Agendar = () => {
   const scriptNameRef = useRef();
   const taskNameRef = useRef();
 
+  /** DUMMY COLUMNS FOR TESTIG */
   const columns = useMemo(
     () => [
       {
@@ -57,6 +58,39 @@ const Agendar = () => {
         accessor: 'dataAlteracao',
       },
     ],
+    []
+  )
+
+  const data = useMemo(
+    () => [
+      {
+        "linguagem": "Python/JEP",
+        "nome": "1 Labin01 - SiefWeb -  Malha PF - Informar Evento",
+        "params": [],
+        "autor": "ELVIS CAICARA DA SILVA",
+        "dataAlteracao": "18/02/2021"
+      },
+      {
+        "linguagem": "Python",
+        "nome": "1 Labin01 - SiefWeb - Malha PF - cadastrar Processo",
+        "params": [],
+        "autor": "ELVIS CAICARA DA SILVA",
+        "dataAlteracao": "18/02/2021"
+      },
+      {
+        "linguagem": "Python",
+        "nome": "1 SIEF mapear tela - ok",
+        "params": [],
+        "autor": "ELVIS CAICARA DA SILVA",
+        "dataAlteracao": "17/11/2020"
+      },
+      {
+        "linguagem": "Python",
+        "nome": "1 SIEF mapear tela 1.1",
+        "params": [],
+        "autor": "ELVIS CAICARA DA SILVA",
+        "dataAlteracao": "24/11/2020"
+      },],
     []
   )
 
@@ -207,7 +241,7 @@ const Agendar = () => {
         <div className='container-agendar--table'>
 
           <Row className="mb-3 mx-5">
-            <AgendarScriptTable getCellValue={clickTableRowHandler} columns={columns}/>
+            <ScriptsTable getCellValue={clickTableRowHandler} columns={columns} data={data}/>
           </Row>
         </div>
       </div>
