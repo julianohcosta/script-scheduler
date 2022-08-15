@@ -19,7 +19,7 @@ body {
 
 body.dark {
     --color-text-even-line: #fff;
-    background-color:#292c35;
+    background-color: #292c35;
     color: var(--color-text-dark);
 }
 

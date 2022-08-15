@@ -8,12 +8,13 @@ table {
     box-shadow: 0 0 20px rgba(0, 0, 0, .30);
 }
 
-table thead{
+table thead {
     background-color: #6c757d;
     color: #FFFFFF;
     text-align: left;
     font-weight: bold;
 }
+
 table th,
 table td {
     padding: 12px 15px;
@@ -24,12 +25,12 @@ table tbody tr {
     cursor: pointer;
 }
 
-table tbody tr:nth-last-of-type(odd){
+table tbody tr:nth-last-of-type(odd) {
     background-color: #f3f3f3;
     color: #292c35;
 }
 
-table tbody tr:nth-last-of-type(even){
+table tbody tr:nth-last-of-type(even) {
     color: var(--color-text-even-line);
 }
 

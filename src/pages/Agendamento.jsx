@@ -22,9 +22,49 @@ const ACTIONS = {
 const Agendamento = () => {
 
   const actionHandler = (e) => {
-    //console.log(row.cells[0].value);
 
-    console.log(e)
+    const action = e.currentTarget.ariaLabel;
+
+    // TODO: Como acessar o nome da tarefa sem fazer essa gambiarra??
+    const taskname = e.currentTarget.parentNode.parentNode.firstChild.innerHTML;
+
+    switch (action) {
+
+      case ACTIONS.EDIT:
+        console.log('edit')
+        console.log(taskname)
+        break;
+      case ACTIONS.RUN:
+        const url = `https://localhost:8443/ctx/run/Agendador/runtask?taskname=${taskname}`;
+        console.log(url);
+        fetch(url)
+          .then(response => response.json())
+          .then(resultado => {
+            console.log(resultado);
+          })
+          .catch(e => console.log(e))
+
+        console.log('run')
+        console.log(taskname)
+        break;
+      case ACTIONS.ENABLE:
+        console.log('enable')
+        console.log(taskname)
+        break;
+      case ACTIONS.DISABLE:
+        console.log('disable')
+        console.log(taskname)
+        break;
+      case ACTIONS.DELETE:
+        console.log('delete')
+        console.log(taskname)
+        break;
+      default:
+        break;
+
+    }
+
+
   }
 
   /** DUMMY COLUMNS FOR TESTIG */
@@ -57,22 +97,22 @@ const Agendamento = () => {
               </IconButton>
             </Tooltip>
             <Tooltip title="Executar">
-              <IconButton aria-label="play">
+              <IconButton aria-label="run" onClick={actionHandler}>
                 <PlayCircleIcon color='info'/>
               </IconButton>
             </Tooltip>
             <Tooltip title="Habilitar">
-              <IconButton aria-label="enable">
+              <IconButton aria-label="enable" onClick={actionHandler}>
                 <CheckCircleIcon color='info'/>
               </IconButton>
             </Tooltip>
             <Tooltip title="Desabilitar">
-              <IconButton aria-label="disable">
+              <IconButton aria-label="disable" onClick={actionHandler}>
                 <CancelIcon color='warning'/>
               </IconButton>
             </Tooltip>
             <Tooltip title="Deletar">
-              <IconButton aria-label="delete">
+              <IconButton aria-label="delete" onClick={actionHandler}>
                 <DeleteIcon color='warning'/>
               </IconButton>
             </Tooltip>
@@ -93,7 +133,7 @@ const Agendamento = () => {
       },
       {
         "status": "Pronto",
-        "taskname": "Novo",
+        "taskname": "hello",
         "proximaExecucao": "22/08/2022 04:06:00",
         "scriptname": "1 Labin01 - SiefWeb -  Malha PF - Informar Evento"
       },
@@ -111,10 +151,6 @@ const Agendamento = () => {
       },],
     []
   )
-  const clickTableRowHandler = (row) => {
-    //console.log(row.cells[0].value);
-  }
-
 
   return (
     <>
@@ -125,7 +161,7 @@ const Agendamento = () => {
         </Typography>
       </Box>
       <Row className="mb-3 mx-5">
-        <ScriptsTable getCellValue={clickTableRowHandler} columns={columns} data={data}/>
+        <ScriptsTable columns={columns} data={data}/>
       </Row>
     </>
   )

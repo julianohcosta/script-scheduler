@@ -4,9 +4,9 @@ import './ScriptsTable.module.css'
 import GlobalFilterComponent from "./GlobalFilter";
 
 const ScriptsTable = props => {
+
   const columns = props.columns;
   const data = props.data;
-
 
   const {
     getTableProps,
@@ -52,7 +52,11 @@ const ScriptsTable = props => {
         {page.map(row => {
           prepareRow(row)
           return (
-            <tr {...row.getRowProps()} onClick={() => props.getCellValue(row)}>
+            <tr {...row.getRowProps()} onClick={() => {
+              if (props.getCellValue){
+                props.getCellValue(row);
+              }
+            }}>
               {row.cells.map(cell => {
                 return (
                   <td

@@ -20,7 +20,6 @@ const SaveButton = props => {
   }, [props.resetBtn]);
 
 
-
   const buttonSx = {
     ...(success && {
       bgcolor: green[500],
@@ -52,13 +51,13 @@ const SaveButton = props => {
       '&scriptname=' + props.scriptName +
       '&frequencia=' + props.frequencia +
       '&horario=' + props.horario +
-      '&dia='+ props.dia +
+      '&dia=' + props.dia +
       '&params='
     )
 
     console.log(url);
 
-    fetch(url, { signal })
+    fetch(url, {signal})
       .then(response => response.json())
       .then(tarefa => {
 
@@ -68,7 +67,7 @@ const SaveButton = props => {
           setLoading(false);
           props.onSave(true, tarefa.message);
 
-        } else if  (tarefa.status === false) {
+        } else if (tarefa.status === false) {
 
           setSuccess(false);
           setLoading(false);

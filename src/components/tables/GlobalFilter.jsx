@@ -1,7 +1,7 @@
-const GlobalFilterComponent = ({ filter, setFilter }) => {
+const GlobalFilterComponent = ({filter, setFilter}) => {
   return (
     <span style={{
-      fontSize:'1.3em',
+      fontSize: '1.3em',
       fontWeight: 'bold',
       marginBottom: '8px'
     }
