@@ -1,4 +1,4 @@
-import {useMemo, useRef, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -34,11 +34,17 @@ const Agendar = () => {
   const [horario, setHorario] = useState('');
   const [message, setmessage] = useState('');
   const [resetBtn, setResetBtn] = useState(false);
+  const [data, setData] = useState([]);
+  const [edtBtn, setEdtBtn] = useState((
+    <Button variant="secondary" type="submit" onClick={onEditParams} className='mx-4'>
+      Editar Parâmetros
+    </Button>
+  ));
 
   const scriptNameRef = useRef();
   const taskNameRef = useRef();
 
-  /** DUMMY COLUMNS FOR TESTIG */
+
   const columns = useMemo(
     () => [
       {
@@ -61,38 +67,19 @@ const Agendar = () => {
     []
   )
 
-  const data = useMemo(
-    () => [
-      {
-        "linguagem": "Python/JEP",
-        "nome": "1 Labin01 - SiefWeb -  Malha PF - Informar Evento",
-        "params": [],
-        "autor": "ELVIS CAICARA DA SILVA",
-        "dataAlteracao": "18/02/2021"
-      },
-      {
-        "linguagem": "Python",
-        "nome": "1 Labin01 - SiefWeb - Malha PF - cadastrar Processo",
-        "params": [],
-        "autor": "ELVIS CAICARA DA SILVA",
-        "dataAlteracao": "18/02/2021"
-      },
-      {
-        "linguagem": "Python",
-        "nome": "1 SIEF mapear tela - ok",
-        "params": [],
-        "autor": "ELVIS CAICARA DA SILVA",
-        "dataAlteracao": "17/11/2020"
-      },
-      {
-        "linguagem": "Python",
-        "nome": "1 SIEF mapear tela 1.1",
-        "params": [],
-        "autor": "ELVIS CAICARA DA SILVA",
-        "dataAlteracao": "24/11/2020"
-      },],
-    []
-  )
+  useEffect(() => {
+
+    const url = 'https://localhost:8443/ctx/run/Agendador/scripts';
+    fetch(url)
+      .then(response => response.json())
+      .then(scripts => {
+        setData(scripts)
+      })
+      .catch(e => {
+        console.log(e);
+      })
+
+  }, []);
 
   /**
    * @param {boolean} sucess
@@ -110,8 +97,9 @@ const Agendar = () => {
     }
   }
 
-  const onEditParams = (e) => {
+  function onEditParams(e) {
     e.preventDefault();
+    console.log('editar Parametros')
   }
 
   /**
@@ -126,7 +114,34 @@ const Agendar = () => {
   }
 
   const clickTableRowHandler = (row) => {
-    setScriptName(row.cells[0].value);
+
+    const nomeScript = row.cells[0].value;
+    setScriptName(nomeScript);
+    const script = data.find(s => s['nome'] === nomeScript);
+    const params = script['params']
+    if (typeof params !== 'undefined' && params.length > 0) {
+      setEdtBtn((
+        <Button variant="secondary" type="submit" onClick={onEditParams} className='mx-4'>
+          Editar Parâmetros
+        </Button>
+      ))
+    } else {
+      setEdtBtn((
+        <OverlayTrigger
+          placement="bottom"
+          delay={{show: 250, hide: 400}}
+          overlay={(props) => renderTooltip(props, 'Este script não possui parâmetros')}
+          defaultShow={false}>
+          <Button
+            variant="secondary"
+            type="submit"
+            onClick={(e) => {e.preventDefault()}}
+            className='mx-4'>
+            Editar Parâmetros
+          </Button>
+        </OverlayTrigger>
+      ))
+    }
   }
 
   const changeHandler = (event) => {
@@ -160,7 +175,7 @@ const Agendar = () => {
       {/*<EditDlg/>*/}
       <div className='container-agendar'>
         <div className='container-agendar--form'>
-          <Form className='m-lg-5 m-md-5'>
+          <Form className='my-lg-3 my-my-md-2'>
 
             <Form.Group as={Row} className="mb-3" controlId="formScriptData">
               <Col sm="1"/>
@@ -175,16 +190,8 @@ const Agendar = () => {
               <Col sm="2">
                 <Form.Label className='mt-2'>Parâmetros do Script</Form.Label>
               </Col>
-              <Col sm="2">
-                <OverlayTrigger
-                  placement="bottom"
-                  delay={{show: 250, hide: 400}}
-                  overlay={(props) => renderTooltip(props, 'Este script não possui parâmetros')}
-                  defaultShow={false}>
-                  <Button variant="secondary" type="submit" onClick={onEditParams} className='mx-4'>
-                    Editar Parâmetros
-                  </Button>
-                </OverlayTrigger>
+              <Col sm="3">
+                {edtBtn}
               </Col>
             </Form.Group>
 

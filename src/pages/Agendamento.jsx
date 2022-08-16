@@ -8,8 +8,9 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Row from 'react-bootstrap/Row';
+import { message } from 'antd';
 import ScriptsTable from "../components/tables/ScriptsTable";
-import {useMemo} from "react";
+import {useEffect, useMemo, useState} from "react";
 
 const ACTIONS = {
   RUN: 'run',
@@ -21,12 +22,31 @@ const ACTIONS = {
 
 const Agendamento = () => {
 
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+
+    const url = 'https://localhost:8443/ctx/run/Agendador/listtasks';
+    fetch(url)
+      .then(response => response.json())
+      .then(scripts => {
+        setData(scripts)
+      })
+      .catch(e => {
+        console.log(e);
+      })
+
+  }, []);
+
   const actionHandler = (e) => {
 
     const action = e.currentTarget.ariaLabel;
 
     // TODO: Como acessar o nome da tarefa sem fazer essa gambiarra??
     const taskname = e.currentTarget.parentNode.parentNode.firstChild.innerHTML;
+
+    let url;
+    let msg;
 
     switch (action) {
 
@@ -35,39 +55,34 @@ const Agendamento = () => {
         console.log(taskname)
         break;
       case ACTIONS.RUN:
-        const url = `https://localhost:8443/ctx/run/Agendador/runtask?taskname=${taskname}`;
-        console.log(url);
-        fetch(url)
-          .then(response => response.json())
-          .then(resultado => {
-            console.log(resultado);
-          })
-          .catch(e => console.log(e))
-
-        console.log('run')
-        console.log(taskname)
+        url = `https://localhost:8443/ctx/run/Agendador/runtask?taskname=${taskname}`;
+        msg = `Tarefa '${taskname}' executada com sucesso`
         break;
       case ACTIONS.ENABLE:
-        console.log('enable')
-        console.log(taskname)
+        url = `https://localhost:8443/ctx/run/Agendador/enabletask?taskname=${taskname}`;
+        msg = `Tarefa '${taskname}' habilitada com sucesso`
         break;
       case ACTIONS.DISABLE:
-        console.log('disable')
-        console.log(taskname)
+        url = `https://localhost:8443/ctx/run/Agendador/disabletask?taskname=${taskname}`;
+        msg = `Tarefa '${taskname}' desabilitada com sucesso`
         break;
       case ACTIONS.DELETE:
-        console.log('delete')
-        console.log(taskname)
+        url = `https://localhost:8443/ctx/run/Agendador/deletetask?taskname=${taskname}`;
+        msg = `Tarefa '${taskname}' deletada com sucesso`
         break;
       default:
         break;
-
     }
 
-
+    fetch(url)
+      .then(response => response.json())
+      .then(resultado => {
+        if (resultado) message.success(msg)
+      })
+      .catch(e => console.log(e))
   }
 
-  /** DUMMY COLUMNS FOR TESTIG */
+
   const columns = useMemo(
     () => [
       {
@@ -81,6 +96,18 @@ const Agendamento = () => {
       {
         Header: 'Próxima Execução',
         accessor: 'proximaExecucao',
+      },
+      {
+        Header: 'Última Execução',
+        accessor: 'ultimaExecucao',
+      },
+      {
+        Header: 'Frequência',
+        accessor: 'frequencia',
+      },
+      {
+        Header: 'Hora',
+        accessor: 'hora',
       },
       {
         Header: 'Status',
@@ -106,11 +133,11 @@ const Agendamento = () => {
                 <CheckCircleIcon color='info'/>
               </IconButton>
             </Tooltip>
-            <Tooltip title="Desabilitar">
-              <IconButton aria-label="disable" onClick={actionHandler}>
-                <CancelIcon color='warning'/>
-              </IconButton>
-            </Tooltip>
+            {/*<Tooltip title="Desabilitar">*/}
+            {/*  <IconButton aria-label="disable" onClick={actionHandler}>*/}
+            {/*    <CancelIcon color='warning'/>*/}
+            {/*  </IconButton>*/}
+            {/*</Tooltip>*/}
             <Tooltip title="Deletar">
               <IconButton aria-label="delete" onClick={actionHandler}>
                 <DeleteIcon color='warning'/>
@@ -120,35 +147,6 @@ const Agendamento = () => {
         )
       }
     ],
-    []
-  )
-
-  const data = useMemo(
-    () => [
-      {
-        "status": "Desabilitado",
-        "taskname": "Folha_Ponto",
-        "proximaExecucao": "N/A",
-        "scriptname": "1 Labin01 - SiefWeb -  Malha PF - Informar Evento"
-      },
-      {
-        "status": "Pronto",
-        "taskname": "hello",
-        "proximaExecucao": "22/08/2022 04:06:00",
-        "scriptname": "1 Labin01 - SiefWeb -  Malha PF - Informar Evento"
-      },
-      {
-        "status": "Pronto",
-        "taskname": "Teste",
-        "proximaExecucao": "10/09/2022 05:06:00",
-        "scriptname": "1 Labin01 - SiefWeb -  Malha PF - Informar Evento"
-      },
-      {
-        "status": "Desabilitado",
-        "taskname": "Outro",
-        "proximaExecucao": "N/A",
-        "scriptname": "1 Labin01 - SiefWeb -  Malha PF - Informar Evento"
-      },],
     []
   )
 
