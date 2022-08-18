@@ -5,10 +5,11 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from '@mui/material/Button';
 import {styled} from '@mui/material/styles';
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import './EditDlg.css'
 
 const EditDlg = (props) => {
+  const [values, setValues] = useState(new Set());
 
   useEffect(() => {
     document.addEventListener("keydown", escFunction, false);
@@ -21,6 +22,10 @@ const EditDlg = (props) => {
     if (event.key === "Escape") {
       props.onClose();
     }
+  }
+
+  const inputHandler = () => {
+
   }
 
   const CancelarBtn = styled(Button)(({theme}) => ({
@@ -43,24 +48,25 @@ const EditDlg = (props) => {
 
   return (
     <Modal onClose={props.onClose}>
-      <Card>
-        <div>
-
-        </div>
+      <Card >
         <Form>
           <Form.Group as={Row} className="mb-3" controlId="formScriptData">
             <Col sm="4">
               <Form.Label>Nome</Form.Label>
-              {props.params.map(param => <Form.Control className='my-1' type="text" disabled value={param['nome']}/>)}
+              {
+                props.params.map(param => <Form.Control
+                  className='my-1'
+                  type="text"
+                  disabled value={param['nome']}
+                />)}
             </Col>
-            <Col sm="3">
-              <Form.Label>Tipo</Form.Label>
-              {props.params.map(param => <Form.Control className='my-1' type="text" disabled value={param['tipo']}/>)}
-              {/*<Form.Control type="text" disabled value={param['tipo']}/>*/}
-            </Col>
-            <Col sm="5">
+            <Col sm="8">
               <Form.Label>Valor</Form.Label>
-              {props.params.map(param => <Form.Control type="text" className='my-1'/>)}
+              {
+                props.params.map(param => <Form.Control
+                  className='my-1'
+                  type="text"
+                />)}
             </Col>
           </Form.Group>
         </Form>
