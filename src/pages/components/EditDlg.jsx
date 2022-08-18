@@ -1,12 +1,73 @@
 import Modal from "../../components/UI/Modal";
 import Card from "../../components/UI/Card";
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from '@mui/material/Button';
+import {styled} from '@mui/material/styles';
+import {useEffect} from "react";
+import './EditDlg.css'
 
-const EditDlg = () => {
+const EditDlg = (props) => {
+
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false);
+    return () => {
+      document.removeEventListener("keydown", escFunction, false);
+    };
+  }, []);
+
+  const escFunction = (event) => {
+    if (event.key === "Escape") {
+      props.onClose();
+    }
+  }
+
+  const CancelarBtn = styled(Button)(({theme}) => ({
+    color: '#00205B',
+    backgroundColor: '#BFC7D6',
+    borderRadius: "6px",
+    '&:hover': {
+      backgroundColor: '#A5B0BE',
+    },
+  }));
+
+  const ConfirmarBtn = styled(Button)(({theme}) => ({
+    color: '#FFFFFF',
+    backgroundColor: '#00205B',
+    borderRadius: "6px",
+    '&:hover': {
+      backgroundColor: '#000055',
+    },
+  }));
 
   return (
-    <Modal>
+    <Modal onClose={props.onClose}>
       <Card>
-        <p>Autenticando. Por favor aguarde...</p>
+        <div>
+
+        </div>
+        <Form>
+          <Form.Group as={Row} className="mb-3" controlId="formScriptData">
+            <Col sm="4">
+              <Form.Label>Nome</Form.Label>
+              {props.params.map(param => <Form.Control className='my-1' type="text" disabled value={param['nome']}/>)}
+            </Col>
+            <Col sm="3">
+              <Form.Label>Tipo</Form.Label>
+              {props.params.map(param => <Form.Control className='my-1' type="text" disabled value={param['tipo']}/>)}
+              {/*<Form.Control type="text" disabled value={param['tipo']}/>*/}
+            </Col>
+            <Col sm="5">
+              <Form.Label>Valor</Form.Label>
+              {props.params.map(param => <Form.Control type="text" className='my-1'/>)}
+            </Col>
+          </Form.Group>
+        </Form>
+        <div className='edit-dlg-form'>
+          <CancelarBtn variant="contained" className='mx-5' onClick={props.onClose}>Cancelar</CancelarBtn>
+          <ConfirmarBtn variant="contained">Confirmar</ConfirmarBtn>
+        </div>
       </Card>
     </Modal>
   )

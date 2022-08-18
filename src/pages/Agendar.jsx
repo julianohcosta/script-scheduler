@@ -11,8 +11,10 @@ import Semanal from "./components/Semanal";
 import Mensal from "./components/Mensal";
 import SaveButton from "./components/SaveButton";
 import ScriptsTable from "../components/tables/ScriptsTable";
+import EditDlg from "./components/EditDlg";
 import "./Agendar.css";
 
+/**  COMPONENTS */
 const FREQUENCIA = {
   DIARIA: "Diária",
   SEMANAL: "Semanal",
@@ -22,6 +24,35 @@ const FREQUENCIA = {
 const Agendar = () => {
   const diario = <Diario onTimerset={horarioHandler} />;
 
+  const editParamBtn = (
+    <Button
+      variant="secondary"
+      type="submit"
+      onClick={e => {
+        e.preventDefault();
+        const script = data.find(
+          s => s["nome"] === scriptNameRef.current["value"]
+        );
+        const params = script?.["params"];
+        if (typeof params !== "undefined" && params.length > 0) {
+          setHideSalveBtn(true);
+          setShowEditDlg(true);
+          paramsRef.current = params;
+        }
+      }}
+      className="mx-4"
+    >
+      Editar Parâmetros
+    </Button>
+  );
+
+  const renderTooltip = (props, text) => (
+    <Tooltip id="button-tooltip" {...props}>
+      {text}
+    </Tooltip>
+  );
+
+  /** useState */
   const [dialogSelector, setDialogSelector] = useState(diario);
   const [showSucess, setShowSucess] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -44,8 +75,10 @@ const Agendar = () => {
     </Button>
   );
 
+  /** useRef */
   const scriptNameRef = useRef();
   const taskNameRef = useRef();
+  const paramsRef = useRef([]);
 
   const columns = useMemo(
     () => [
@@ -80,6 +113,8 @@ const Agendar = () => {
         console.log(e);
       });
   }, []);
+
+  /** HANDLER FUNCTIONS */
 
   /**
    * @param {boolean} sucess
@@ -175,10 +210,27 @@ const Agendar = () => {
     }
   };
 
-  const renderTooltip = (props, text) => (
-    <Tooltip id="button-tooltip" {...props}>
-      {text}
-    </Tooltip>
+  /** TABLE COLUMNS */
+  const columns = useMemo(
+    () => [
+      {
+        Header: "Nome do Script",
+        accessor: "nome", // accessor is the "key" in the data
+      },
+      {
+        Header: "Autor",
+        accessor: "autor",
+      },
+      {
+        Header: "Linguagem",
+        accessor: "linguagem",
+      },
+      {
+        Header: "Data da Última Alteração",
+        accessor: "dataAlteracao",
+      },
+    ],
+    []
   );
 
   return (
@@ -235,17 +287,19 @@ const Agendar = () => {
             <Form.Group as={Row} className="my-3" controlId="fromButtons">
               <Col sm="1" />
               <Col sm="1">
-                <SaveButton
-                  onSave={saveTaskHandler}
-                  setShowSucess={setShowSucess}
-                  setShowError={setShowError}
-                  resetBtn={resetBtn}
-                  taskName={taskName}
-                  frequencia={frequencia}
-                  dia={dia}
-                  horario={horario}
-                  scriptName={scriptName}
-                />
+                {!hideSalveBtn && (
+                  <SaveButton
+                    onSave={saveTaskHandler}
+                    setShowSucess={setShowSucess}
+                    setShowError={setShowError}
+                    resetBtn={resetBtn}
+                    taskName={taskName}
+                    frequencia={frequencia}
+                    dia={dia}
+                    horario={horario}
+                    scriptName={scriptName}
+                  />
+                )}
               </Col>
               <Col sm="7">
                 {showSucess && (
