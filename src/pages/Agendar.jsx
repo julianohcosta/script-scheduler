@@ -11,9 +11,10 @@ import Semanal from "./components/Semanal";
 import Mensal from "./components/Mensal";
 import SaveButton from "./components/SaveButton";
 import ScriptsTable from "../components/tables/ScriptsTable";
+import EditDlg from "./components/EditDlg";
 import './Agendar.css'
 
-
+/**  COMPONENTS */
 const FREQUENCIA = {
   DIARIA: 'Diária',
   SEMANAL: 'Semanal',
@@ -22,8 +23,31 @@ const FREQUENCIA = {
 
 const Agendar = () => {
 
+  /**  COMPONENTS */
   const diario = <Diario onTimerset={horarioHandler}/>
 
+  const editParamBtn = (
+    <Button variant="secondary" type="submit" onClick={(e) => {
+      e.preventDefault();
+      const script = data.find(s => s['nome'] === scriptNameRef.current['value']);
+      const params = script?.['params']
+      if (typeof params !== 'undefined' && params.length > 0){
+        setHideSalveBtn(true)
+        setShowEditDlg(true);
+        paramsRef.current = params;
+      }
+        }} className='mx-4'>
+      Editar Parâmetros
+    </Button>
+  )
+
+  const renderTooltip = (props, text) => (
+    <Tooltip id="button-tooltip" {...props}>
+      {text}
+    </Tooltip>
+  );
+
+  /** useState */
   const [dialogSelector, setDialogSelector] = useState(diario);
   const [showSucess, setShowSucess] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -35,38 +59,16 @@ const Agendar = () => {
   const [message, setmessage] = useState('');
   const [resetBtn, setResetBtn] = useState(false);
   const [data, setData] = useState([]);
-  const [edtBtn, setEdtBtn] = useState((
-    <Button variant="secondary" type="submit" onClick={onEditParams} className='mx-4'>
-      Editar Parâmetros
-    </Button>
-  ));
+  const [showEditDlg, setShowEditDlg] = useState(false);
+  const [edtBtn, setEdtBtn] = useState(editParamBtn);
+  const [hideSalveBtn, setHideSalveBtn] = useState(false);
 
+  /** useRef */
   const scriptNameRef = useRef();
   const taskNameRef = useRef();
+  const paramsRef = useRef([]);
 
-
-  const columns = useMemo(
-    () => [
-      {
-        Header: 'Nome do Script',
-        accessor: 'nome', // accessor is the "key" in the data
-      },
-      {
-        Header: 'Autor',
-        accessor: 'autor',
-      },
-      {
-        Header: 'Linguagem',
-        accessor: 'linguagem',
-      },
-      {
-        Header: 'Data da Última Alteração',
-        accessor: 'dataAlteracao',
-      },
-    ],
-    []
-  )
-
+  /** useEffect */
   useEffect(() => {
 
     const url = 'https://localhost:8443/ctx/run/Agendador/scripts';
@@ -78,8 +80,10 @@ const Agendar = () => {
       .catch(e => {
         console.log(e);
       })
-
   }, []);
+
+
+  /** HANDLER FUNCTIONS */
 
   /**
    * @param {boolean} sucess
@@ -95,11 +99,6 @@ const Agendar = () => {
       setmessage(message)
       setShowError(true)
     }
-  }
-
-  function onEditParams(e) {
-    e.preventDefault();
-    console.log('editar Parametros')
   }
 
   /**
@@ -120,11 +119,7 @@ const Agendar = () => {
     const script = data.find(s => s['nome'] === nomeScript);
     const params = script['params']
     if (typeof params !== 'undefined' && params.length > 0) {
-      setEdtBtn((
-        <Button variant="secondary" type="submit" onClick={onEditParams} className='mx-4'>
-          Editar Parâmetros
-        </Button>
-      ))
+      setEdtBtn(editParamBtn)
     } else {
       setEdtBtn((
         <OverlayTrigger
@@ -132,13 +127,7 @@ const Agendar = () => {
           delay={{show: 250, hide: 400}}
           overlay={(props) => renderTooltip(props, 'Este script não possui parâmetros')}
           defaultShow={false}>
-          <Button
-            variant="secondary"
-            type="submit"
-            onClick={(e) => {e.preventDefault()}}
-            className='mx-4'>
-            Editar Parâmetros
-          </Button>
+          {editParamBtn}
         </OverlayTrigger>
       ))
     }
@@ -164,15 +153,39 @@ const Agendar = () => {
     }
   }
 
-  const renderTooltip = (props, text) => (
-    <Tooltip id="button-tooltip" {...props}>
-      {text}
-    </Tooltip>
-  );
+  /** TABLE COLUMNS */
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Nome do Script',
+        accessor: 'nome', // accessor is the "key" in the data
+      },
+      {
+        Header: 'Autor',
+        accessor: 'autor',
+      },
+      {
+        Header: 'Linguagem',
+        accessor: 'linguagem',
+      },
+      {
+        Header: 'Data da Última Alteração',
+        accessor: 'dataAlteracao',
+      },
+    ],
+    []
+  )
 
   return (
     <>
-      {/*<EditDlg/>*/}
+      {showEditDlg && <EditDlg
+        params={paramsRef.current}
+        onClose={() => {
+        setShowEditDlg(false);
+        setHideSalveBtn(false);
+      }}
+
+      />}
       <div className='container-agendar'>
         <div className='container-agendar--form'>
           <Form className='my-lg-3 my-my-md-2'>
@@ -218,17 +231,19 @@ const Agendar = () => {
             <Form.Group as={Row} className="my-3" controlId="fromButtons">
               <Col sm="1"/>
               <Col sm="1">
-                <SaveButton
-                  onSave={saveTaskHandler}
-                  setShowSucess={setShowSucess}
-                  setShowError={setShowError}
-                  resetBtn={resetBtn}
-                  taskName={taskName}
-                  frequencia={frequencia}
-                  dia={dia}
-                  horario={horario}
-                  scriptName={scriptName}
-                />
+                {!hideSalveBtn && (
+                  <SaveButton
+                    onSave={saveTaskHandler}
+                    setShowSucess={setShowSucess}
+                    setShowError={setShowError}
+                    resetBtn={resetBtn}
+                    taskName={taskName}
+                    frequencia={frequencia}
+                    dia={dia}
+                    horario={horario}
+                    scriptName={scriptName}
+                  />
+                )}
               </Col>
               <Col sm="7">
                 {showSucess && <Alert key={`0101`} variant={`primary`} onClose={() => {

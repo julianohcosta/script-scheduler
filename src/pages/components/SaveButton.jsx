@@ -45,54 +45,57 @@ const SaveButton = props => {
 
     setLoading(true);
 
-    const url = (
-      'https://localhost:8443/ctx/run/Agendador/createtask?' +
-      'taskname=' + props.taskName +
-      '&scriptname=' + props.scriptName +
-      '&frequencia=' + props.frequencia +
-      '&horario=' + props.horario +
-      '&dia=' + props.dia +
-      '&params='
-    )
+    /** Aqui apenas para dar tempo de visualizar a animação do botão*/
+    setTimeout(() => {
+      const url = (
+        'https://localhost:8443/ctx/run/Agendador/createtask?' +
+        'taskname=' + props.taskName +
+        '&scriptname=' + props.scriptName +
+        '&frequencia=' + props.frequencia +
+        '&horario=' + props.horario +
+        '&dia=' + props.dia +
+        '&params='
+      )
 
-    console.log(url);
+      console.log(url);
 
-    fetch(url, {signal})
-      .then(response => response.json())
-      .then(tarefa => {
+      fetch(url, {signal})
+        .then(response => response.json())
+        .then(tarefa => {
 
-        if (tarefa.status) {
+          if (tarefa.status) {
 
-          setSuccess(true);
-          setLoading(false);
-          props.onSave(true, tarefa.message);
+            setSuccess(true);
+            setLoading(false);
+            props.onSave(true, tarefa.message);
 
-        } else if (tarefa.status === false) {
+          } else if (tarefa.status === false) {
 
-          setSuccess(false);
-          setLoading(false);
-          setError(true);
+            setSuccess(false);
+            setLoading(false);
+            setError(true);
 
-          props.onSave(false, tarefa.message);
-        } else {
+            props.onSave(false, tarefa.message);
+          } else {
+            setSuccess(false);
+            setLoading(false);
+            setError(true);
+
+            props.onSave(false, `Um erro inesperado ocorreu`);
+          }
+        })
+        .catch(e => {
+          console.log(e);
           setSuccess(false);
           setLoading(false);
           setError(true);
 
           props.onSave(false, `Um erro inesperado ocorreu`);
-        }
-      })
-      .catch(e => {
-        console.log(e);
-        setSuccess(false);
-        setLoading(false);
-        setError(true);
-
-        props.onSave(false, `Um erro inesperado ocorreu`);
-      })
-    return () => {
-      controller.abort();
-    }
+        })
+      return () => {
+        controller.abort();
+      }
+    }, 2000)
   };
 
   return (
