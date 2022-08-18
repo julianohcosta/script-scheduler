@@ -1,65 +1,65 @@
 .profile {
-    margin: 10px 25px;
+  margin: 10px 25px;
 }
 
 .avatar {
-    padding: 5px 15px;
-    margin: 10px;
+  padding: 5px 15px;
+  margin: 10px;
+
+  position: relative;
 }
 
 .ellipse {
+  /* Ellipse 261 */
+  box-sizing: border-box;
+  position: absolute;
 
-    /* Ellipse 261 */
-    box-sizing: border-box;
-    position: absolute;
-    width: 75px;
-    height: 75px;
+  top: 0.35em;
+  left: 0.95em;
 
-    margin: 0 0 0 25px;
+  width: 75px;
+  height: 75px;
 
-    /* Pallet 1 / Primary */
-    border: 5px solid var(--color-text);
-    border-radius: 50%;
-    /* Halve the circle */
-    border-bottom-color: transparent;
-    border-left-color: transparent;
-    /* Rotate the circle */
-    transform: rotate(45deg);
+  margin: 0 0 0 25px;
 
-
+  /* Pallet 1 / Primary */
+  border: 5px solid var(--color-text);
+  border-radius: 50%;
+  /* Halve the circle */
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  /* Rotate the circle */
+  transform: rotate(45deg);
 }
 
 .avatar img {
+  /* Ellipse 260 */
+  box-sizing: border-box;
 
-    /* Ellipse 260 */
-    box-sizing: border-box;
+  width: 63px;
+  height: 63px;
 
-    width: 63px;
-    height: 63px;
-
-    border: 2px solid #000000;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    border-radius: 50%;
-    margin-top: 6px;
+  border: 2px solid #000000;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 50%;
+  margin-top: 6px;
 }
 
 p {
-    padding: 5px 7px;
-    font-style: normal;
-    text-align: center;
+  padding: 5px 7px;
+  font-style: normal;
+  text-align: center;
 }
 
 .name {
-
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 20px;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
 }
 
 .position {
-
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 100%;
-    color: var(--color-subtext);
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 100%;
+  color: var(--color-subtext);
 }

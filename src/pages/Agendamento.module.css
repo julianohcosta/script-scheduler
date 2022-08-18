@@ -1,0 +1,34 @@
+/******** Action Buttons********/
+
+.slide-container {
+  display: flex;
+  position: relative;
+}
+
+.hidden-classe {
+  display: none;
+}
+
+.actions-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  background-color: #e9ecef;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
+  position: absolute;
+  border-radius: 5px;
+  /* top: 0; */
+  /* right: 0; */
+  z-index: 99;
+
+  animation: slide 1.5s 0.2s forwards;
+}
+
+@keyframes slide {
+  from {
+    right: -5em;
+  }
+  to {
+    right: 3.5em;
+  }
+}
