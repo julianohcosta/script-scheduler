@@ -153,6 +153,14 @@ const Agendar = () => {
     }
   }
 
+  const onConfirmar = (values) => {
+
+    values.forEach((valor, chave) => {
+
+      }
+    )
+  }
+
   /** TABLE COLUMNS */
   const columns = useMemo(
     () => [
@@ -184,7 +192,7 @@ const Agendar = () => {
           setShowEditDlg(false);
           setHideSalveBtn(false);
         }}
-
+        onConfirmar={onConfirmar}
       />}
       <div className='container-agendar'>
         <div className='container-agendar--form'>

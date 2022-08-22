@@ -9,7 +9,7 @@ import {useEffect, useState} from "react";
 import './EditDlg.css'
 
 const EditDlg = (props) => {
-  const [values, setValues] = useState(new Set());
+  const [values, setValues] = useState(new Map());
 
   useEffect(() => {
     document.addEventListener("keydown", escFunction, false);
@@ -24,8 +24,8 @@ const EditDlg = (props) => {
     }
   }
 
-  const inputHandler = () => {
-
+  const inputHandler = (e, paramName) => {
+    setValues(vals => vals.set(paramName, e.target.value));
   }
 
   const CancelarBtn = styled(Button)(({theme}) => ({
@@ -66,13 +66,14 @@ const EditDlg = (props) => {
                 props.params.map(param => <Form.Control
                   className='my-1'
                   type="text"
+                  onChange={(e) => inputHandler(e, param['nome'])}
                 />)}
             </Col>
           </Form.Group>
         </Form>
         <div className='edit-dlg-form'>
           <CancelarBtn variant="contained" className='mx-5' onClick={props.onClose}>Cancelar</CancelarBtn>
-          <ConfirmarBtn variant="contained">Confirmar</ConfirmarBtn>
+          <ConfirmarBtn variant="contained" onClick={(values) => props.onConfirmar(values)}>Confirmar</ConfirmarBtn>
         </div>
       </Card>
     </Modal>
