@@ -10,9 +10,10 @@ import Typography from "@mui/material/Typography";
 import Row from "react-bootstrap/Row";
 import { message } from "antd";
 import ScriptsTable from "../components/tables/ScriptsTable";
-import { useEffect, useMemo, useState, useRef, useCallback } from "react";
-
+import { useEffect, useMemo, useState, useRef } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
+
+/** CSS **/
 import classes from "./Agendamento.module.css";
 
 const ACTIONS = {
