@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useRef, useState} from "react";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -62,6 +62,7 @@ const Agendar = () => {
   const [showEditDlg, setShowEditDlg] = useState(false);
   const [edtBtn, setEdtBtn] = useState(editParamBtn);
   const [hideSalveBtn, setHideSalveBtn] = useState(false);
+  const [parametros, setParametros] = useState('');
 
   /** useRef */
   const scriptNameRef = useRef();
@@ -156,9 +157,12 @@ const Agendar = () => {
   const onConfirmar = (values) => {
 
     values.forEach((valor, chave) => {
-
+      setParametros(prevParam => prevParam + `${chave}=${valor};`)
       }
     )
+
+    setShowEditDlg(false);
+    setHideSalveBtn(false);
   }
 
   /** TABLE COLUMNS */
@@ -184,14 +188,19 @@ const Agendar = () => {
     []
   )
 
+  const close = useCallback(() => {
+      setShowEditDlg(false);
+      setHideSalveBtn(false);
+    },
+    [],
+  );
+
+
   return (
     <>
       {showEditDlg && <EditDlg
         params={paramsRef.current}
-        onClose={() => {
-          setShowEditDlg(false);
-          setHideSalveBtn(false);
-        }}
+        onClose={close}
         onConfirmar={onConfirmar}
       />}
       <div className='container-agendar'>
@@ -247,6 +256,7 @@ const Agendar = () => {
                     resetBtn={resetBtn}
                     taskName={taskName}
                     frequencia={frequencia}
+                    params={parametros}
                     dia={dia}
                     horario={horario}
                     scriptName={scriptName}

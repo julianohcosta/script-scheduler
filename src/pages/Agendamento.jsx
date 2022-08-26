@@ -3,14 +3,13 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
-import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Row from "react-bootstrap/Row";
-import { message } from "antd";
+import {message} from "antd";
 import ScriptsTable from "../components/tables/ScriptsTable";
-import { useEffect, useMemo, useState, useRef } from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 
 /** CSS **/
@@ -25,10 +24,8 @@ const ACTIONS = {
 };
 
 const Agendamento = () => {
-  const dataRef = useRef([]);
   const [data, setData] = useState([]);
   const [showActionsButtons, setDisplayNone] = useState(false);
-  const [taskName, setTaskName] = useState("");
   const [rowIndex, setRowIndex] = useState(null);
 
   useEffect(() => {
@@ -37,31 +34,23 @@ const Agendamento = () => {
       .then(response => response.json())
       .then(scripts => {
         setData(scripts);
-        dataRef.current = scripts;
       })
       .catch(e => {
         console.log(e);
       });
   }, []);
 
-  const actionHandler = e => {
-    setDisplayNone(!showActionsButtons);
+  const actionHandler = useCallback(e => {
+    setDisplayNone(prevActionButton => !prevActionButton);
     const action = e.currentTarget.ariaLabel;
 
     // TODO: Como acessar o nome da tarefa sem fazer essa gambiarra??
-    setTaskName(
-      e.currentTarget.parentNode.parentNode.parentNode.parentNode.firstChild
-        .innerHTML
-    );
+    const taskName = e.currentTarget.parentNode.parentNode.parentNode.parentNode.firstChild.innerHTML
 
     let url;
     let msg;
 
     switch (action) {
-      case ACTIONS.EDIT:
-        console.log("edit");
-        console.log(taskName);
-        break;
       case ACTIONS.RUN:
         url = `https://localhost:8443/ctx/run/Agendador/runtask?taskname=${taskName}`;
         msg = `Tarefa '${taskName}' executada com sucesso`;
@@ -81,22 +70,23 @@ const Agendamento = () => {
       default:
         break;
     }
+    if (url) {
+      fetch(url)
+        .then(response => response.json())
+        .then(resultado => {
+          if (resultado) message.success(msg).then();
+        })
+        .catch(e => console.log(e));
+    }
 
-    fetch(url)
-      .then(response => response.json())
-      .then(resultado => {
-        if (resultado) message.success(msg);
-      })
-      .catch(e => console.log(e));
-  };
+  }, []);
 
-  const menuHandler = e => {
-    const tarefa =
-      e.currentTarget.parentNode.parentNode.parentNode.firstChild.innerHTML;
-    const currentRowObject = dataRef.current.find(t => t.taskname === tarefa);
+  const menuHandler = useCallback(e => {
+    const tarefa = e.currentTarget.parentNode.parentNode.parentNode.firstChild.innerHTML;
+    const currentRowObject = data.find(t => t['taskname'] === tarefa);
     setRowIndex(currentRowObject.id);
-    setDisplayNone(!showActionsButtons);
-  };
+    setDisplayNone(prevActionButton => !prevActionButton);
+  }, [data]);
 
   const columns = useMemo(
     () => [
@@ -136,7 +126,7 @@ const Agendamento = () => {
             <div onClick={menuHandler}>
               <Tooltip title="Menu">
                 <IconButton>
-                  <MenuIcon color="info" />
+                  <MenuIcon color="info"/>
                 </IconButton>
               </Tooltip>
             </div>
@@ -147,34 +137,29 @@ const Agendamento = () => {
             <div onClick={menuHandler}>
               <Tooltip title="Menu">
                 <IconButton>
-                  <MenuIcon color="info" />
+                  <MenuIcon color="info"/>
                 </IconButton>
               </Tooltip>
             </div>
             <div className={classes["actions-container"]}>
-              <Tooltip title="Editar">
-                <IconButton aria-label="edit" onClick={actionHandler}>
-                  <EditIcon color="info" />
-                </IconButton>
-              </Tooltip>
               <Tooltip title="Executar">
                 <IconButton aria-label="run" onClick={actionHandler}>
-                  <PlayCircleIcon color="info" />
+                  <PlayCircleIcon color="info"/>
                 </IconButton>
               </Tooltip>
               <Tooltip title="Habilitar">
                 <IconButton aria-label="enable" onClick={actionHandler}>
-                  <CheckCircleIcon color="info" />
+                  <CheckCircleIcon color="info"/>
                 </IconButton>
               </Tooltip>
               <Tooltip title="Desabilitar">
                 <IconButton aria-label="disable" onClick={actionHandler}>
-                  <CancelIcon color="warning" />
+                  <CancelIcon color="warning"/>
                 </IconButton>
               </Tooltip>
               <Tooltip title="Deletar">
                 <IconButton aria-label="delete" onClick={actionHandler}>
-                  <DeleteIcon color="warning" />
+                  <DeleteIcon color="warning"/>
                 </IconButton>
               </Tooltip>
             </div>
@@ -182,12 +167,12 @@ const Agendamento = () => {
         ),
       },
     ],
-    [showActionsButtons, rowIndex]
+    [menuHandler, actionHandler]
   );
 
   return (
     <>
-      <Box sx={{ width: "100%", maxWidth: "65%" }} ml={8}>
+      <Box sx={{width: "100%", maxWidth: "65%"}} ml={8}>
         <Typography
           variant="h2"
           component="div"
@@ -199,7 +184,7 @@ const Agendamento = () => {
       </Box>
       <Row className="mb-3 mx-5">
         <ScriptsTable
-          onAction={{ rowIndex, showActionsButtons }}
+          onAction={{rowIndex, showActionsButtons}}
           columns={columns}
           data={data}
         />

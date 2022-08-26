@@ -1,4 +1,4 @@
-import { useGlobalFilter, usePagination, useTable } from "react-table";
+import {useGlobalFilter, usePagination, useTable} from "react-table";
 
 import "./ScriptsTable.module.css";
 import GlobalFilterComponent from "./GlobalFilter";
@@ -23,15 +23,11 @@ const ScriptsTable = props => {
     prepareRow,
     state,
     setGlobalFilter,
-  } = useTable({ columns, data }, useGlobalFilter, usePagination);
+  } = useTable({columns, data}, useGlobalFilter, usePagination);
 
-  const { pageSize, pageIndex, globalFilter } = state;
+  const {pageSize, pageIndex, globalFilter} = state;
   const renderCell = (rowIndex, cellIndex, cell) => {
-    if (
-      cellIndex === 7 &&
-      props.onAction.showActionsButtons &&
-      props.onAction.rowIndex === rowIndex
-    ) {
+    if (cellIndex === 7 && props.onAction.showActionsButtons && props.onAction.rowIndex === rowIndex) {
       return <td {...cell.getCellProps()}>{cell.render("CellA")}</td>;
     }
     return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
@@ -45,33 +41,33 @@ const ScriptsTable = props => {
       />
       <table {...getTableProps()}>
         <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
-              ))}
-            </tr>
-          ))}
+        {headerGroups.map(headerGroup => (
+          <tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map(column => (
+              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+            ))}
+          </tr>
+        ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {page.map((row, rowIndex) => {
-            prepareRow(row);
-            return (
-              <tr
-                data-row={rowIndex}
-                {...row.getRowProps()}
-                onClick={() => {
-                  if (props.getCellValue) {
-                    props.getCellValue(row);
-                  }
-                }}
-              >
-                {row.cells.map((cell, indexCell) => {
-                  return renderCell(rowIndex, indexCell, cell);
-                })}
-              </tr>
-            );
-          })}
+        {page.map((row, rowIndex) => {
+          prepareRow(row);
+          return (
+            <tr
+              data-row={rowIndex}
+              {...row.getRowProps()}
+              onClick={() => {
+                if (props.getCellValue) {
+                  props.getCellValue(row);
+                }
+              }}
+            >
+              {row.cells.map((cell, indexCell) => {
+                return renderCell(rowIndex, indexCell, cell);
+              })}
+            </tr>
+          );
+        })}
         </tbody>
       </table>
       <div>
@@ -93,7 +89,7 @@ const ScriptsTable = props => {
                 : 0;
               gotoPage(pageNumber);
             }}
-            style={{ width: "50px" }}
+            style={{width: "50px"}}
           />
         </span>
         <select

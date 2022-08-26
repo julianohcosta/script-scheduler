@@ -54,7 +54,7 @@ const SaveButton = props => {
         '&frequencia=' + props.frequencia +
         '&horario=' + props.horario +
         '&dia=' + props.dia +
-        '&params='
+        '&params=' + props.params.replace(/;$/, "")
       )
 
       console.log(url);

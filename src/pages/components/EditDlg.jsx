@@ -10,25 +10,28 @@ import './EditDlg.css'
 
 const EditDlg = (props) => {
   const [values, setValues] = useState(new Map());
+  
+  const closeEditDlg = props.onClose();
 
   useEffect(() => {
+
+    const escFunction =  (event) => {
+      if (event.key === "Escape") {
+        closeEditDlg();
+      }
+    }
+
     document.addEventListener("keydown", escFunction, false);
     return () => {
       document.removeEventListener("keydown", escFunction, false);
     };
-  }, []);
-
-  const escFunction = (event) => {
-    if (event.key === "Escape") {
-      props.onClose();
-    }
-  }
+  }, [closeEditDlg]);
 
   const inputHandler = (e, paramName) => {
     setValues(vals => vals.set(paramName, e.target.value));
   }
 
-  const CancelarBtn = styled(Button)(({theme}) => ({
+  const CancelarBtn = styled(Button)(() => ({
     color: '#00205B',
     backgroundColor: '#BFC7D6',
     borderRadius: "6px",
@@ -37,7 +40,7 @@ const EditDlg = (props) => {
     },
   }));
 
-  const ConfirmarBtn = styled(Button)(({theme}) => ({
+  const ConfirmarBtn = styled(Button)(() => ({
     color: '#FFFFFF',
     backgroundColor: '#00205B',
     borderRadius: "6px",
@@ -55,6 +58,7 @@ const EditDlg = (props) => {
               <Form.Label>Nome</Form.Label>
               {
                 props.params.map(param => <Form.Control
+                  key={param['nome']}
                   className='my-1'
                   type="text"
                   disabled value={param['nome']}
@@ -64,6 +68,7 @@ const EditDlg = (props) => {
               <Form.Label>Valor</Form.Label>
               {
                 props.params.map(param => <Form.Control
+                  key={param['nome']}
                   className='my-1'
                   type="text"
                   onChange={(e) => inputHandler(e, param['nome'])}
@@ -73,7 +78,7 @@ const EditDlg = (props) => {
         </Form>
         <div className='edit-dlg-form'>
           <CancelarBtn variant="contained" className='mx-5' onClick={props.onClose}>Cancelar</CancelarBtn>
-          <ConfirmarBtn variant="contained" onClick={(values) => props.onConfirmar(values)}>Confirmar</ConfirmarBtn>
+          <ConfirmarBtn variant="contained" onClick={() => props.onConfirmar(values)}>Confirmar</ConfirmarBtn>
         </div>
       </Card>
     </Modal>
