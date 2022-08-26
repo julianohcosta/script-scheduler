@@ -70,14 +70,12 @@ const Agendamento = () => {
       default:
         break;
     }
-    if (url) {
-      fetch(url)
-        .then(response => response.json())
-        .then(resultado => {
-          if (resultado) message.success(msg).then();
-        })
-        .catch(e => console.log(e));
-    }
+    fetch(url)
+      .then(response => response.json())
+      .then(resultado => {
+        if (resultado) message.success(msg).then();
+      })
+      .catch(e => console.log(e));
 
   }, []);
 
