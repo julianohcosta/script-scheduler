@@ -5,10 +5,10 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import contact from '../assets/undraw-contact.svg'
 
-const Suporte = props => {
+const Suporte = () => {
   return (
     <div className={classes.content}>
-      <Container >
+      <Container>
         <Row className='justify-content-center'>
           <Col md={10}>
             <Row>
@@ -20,19 +20,25 @@ const Suporte = props => {
                 </p>
               </Col>
               <Col md={6}>
-                <Form.Group as={Row} controlId="supportForm" >
+                <Form.Group as={Row} controlId="supportForm">
                   <Col md='12'>
                     <Form.Control type="text" placeholder={`Assunto`}/>
                   </Col>
                 </Form.Group>
-                <Form.Group as={Row} controlId="supportForm" >
+                <Form.Group as={Row} controlId="supportForm">
                   <Col md='12'>
-                    <textarea className="form-control my-4" name="message" id="message" cols="30" rows="12" placeholder="Escreva sua mensagem"/>
+                    <textarea className="form-control my-4" name="message" id="message" cols="30" rows="12"
+                              placeholder="Escreva sua mensagem"/>
                   </Col>
                 </Form.Group>
-                <Form.Group as={Row} controlId="supportFormBtn" >
+                <Form.Group as={Row} controlId="supportFormBtn">
                   <Col md='12'>
-                    <input type="submit" value="Enviar Mensagem" className="btn btn-primary rounded-2 py-2 px-4"/>
+                    <input
+                      type="submit"
+                      value="Enviar Mensagem"
+                      className="btn btn-primary rounded-2 py-2 px-4"
+                      onClick={event => console.log(event)}
+                    />
                   </Col>
                 </Form.Group>
               </Col>
