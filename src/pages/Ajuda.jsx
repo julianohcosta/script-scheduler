@@ -4,23 +4,14 @@ import Typography from '@mui/material/Typography';
 const Ajuda = () => {
   return (
     <Box sx={{width: '100%', maxWidth: '65%'}} ml={8}>
-      <Typography variant="h1" component="div" gutterBottom className='fw-bold'>
+      <Typography variant="h2" component="div" gutterBottom className='fw-bold'>
         Agendamento de Scripts
       </Typography>
-      <Typography variant="h2" gutterBottom component="div">
+      <Typography variant="h3" gutterBottom component="div">
         Como utilizar este script
       </Typography>
-      <Typography variant="h3" gutterBottom component="div">
-        h3. Heading
-      </Typography>
       <Typography variant="h4" gutterBottom component="div">
-        h4. Heading
-      </Typography>
-      <Typography variant="h5" gutterBottom component="div">
-        h5. Heading
-      </Typography>
-      <Typography variant="h6" gutterBottom component="div">
-        h6. Heading
+        Como agendar a execução de um script.
       </Typography>
       <Typography variant="subtitle1" gutterBottom component="div">
         subtitle1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos

@@ -1,7 +1,6 @@
 import Avatar from "./UI/Avatar";
 import './SideBar.css'
 import Menu from "./Menu";
-import logoLabin from '../assets/logoLabin.png'
 import {FaMoon, FaSun} from "react-icons/fa";
 
 const SideBar = props => {
@@ -25,7 +24,19 @@ const SideBar = props => {
           <div className='ball'/>
         </label>
       </div>
-      <img className='labinLogo' src={logoLabin} alt="logo Labin 01"/>
+      <a
+        href="https://rfbgov.sharepoint.com/sites/Labin01/SitePages/Labin01.aspx"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <img
+          className='labinLogo'
+          src={
+            "https://edicao.intranet.receita.fazenda/administracao/rf01/estrutura-organizacional/superintendencia-regional/gabinete/labin01/imagens/logolabinnobg387x649/image_preview"
+          }
+          alt="Awesome Labin01 logo"
+        />
+      </a>
     </div>
   )
 };
