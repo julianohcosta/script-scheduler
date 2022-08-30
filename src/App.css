@@ -39,10 +39,13 @@ body.dark {
   display: table-cell;
   width: 10%;
   vertical-align: top;
+  position: fixed;
 }
 
 .content {
   display: table-cell;
-  width: 90%;
+  width: 85%;
   vertical-align: top;
+  overflow-y: scroll;
+  max-height: 100vh;
 }

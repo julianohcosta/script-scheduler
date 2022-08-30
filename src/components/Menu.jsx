@@ -10,7 +10,7 @@ const Menu = props => {
       <MenuItem icon={<MdAddTask/>} text={ACOES.AGENDAR} onClick={(event) => props.onClick(event, ACOES.AGENDAR)}/>
       <MenuItem icon={<MdOutlineSchedule/>} text={ACOES.AGENDAMENTOS}
                 onClick={(event) => props.onClick(event, ACOES.AGENDAMENTOS)}/>
-      <MenuItem icon={<MdHelpOutline/>} text={ACOES.AJUDA} onClick={(event) => props.onClick(event, ACOES.AJUDA)}/>
+      {/*<MenuItem icon={<MdHelpOutline/>} text={ACOES.AJUDA} onClick={(event) => props.onClick(event, ACOES.AJUDA)}/>*/}
       <MenuItem icon={<MdMailOutline/>} text={ACOES.SUPORTE} onClick={(event) => props.onClick(event, ACOES.SUPORTE)}/>
     </ul>
   )
