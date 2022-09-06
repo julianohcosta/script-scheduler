@@ -10,6 +10,7 @@ import Suporte from "./pages/Suporte";
 const App = () => {
   const [showedMenu, setShowedMenu] = useState(<Agendar />);
 
+
   const onClick = (e, acao) => {
     switch (acao) {
       case ACOES.AGENDAR:

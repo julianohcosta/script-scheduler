@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -156,8 +156,10 @@ const Agendar = () => {
 
   const onConfirmar = (values) => {
 
+    console.log(values)
+
     values.forEach((valor, chave) => {
-      setParametros(prevParam => prevParam + `${chave}=${valor};`)
+        setParametros(prevParam => prevParam + `${chave}=${valor};`)
       }
     )
 
@@ -188,19 +190,14 @@ const Agendar = () => {
     []
   )
 
-  const close = useCallback(() => {
-      setShowEditDlg(false);
-      setHideSalveBtn(false);
-    },
-    [],
-  );
-
-
   return (
     <>
       {showEditDlg && <EditDlg
         params={paramsRef.current}
-        onClose={close}
+        onClose={() => {
+          setShowEditDlg(false);
+          setHideSalveBtn(false);
+        }}
         onConfirmar={onConfirmar}
       />}
       <div className='container-agendar'>

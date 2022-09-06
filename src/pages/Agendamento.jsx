@@ -68,7 +68,7 @@ const Agendamento = () => {
         msg = `Tarefa '${taskName}' deletada com sucesso`;
         break;
       default:
-        break;
+        return;
     }
     fetch(url)
       .then(response => response.json())
@@ -175,7 +175,7 @@ const Agendamento = () => {
           variant="h2"
           component="div"
           gutterBottom
-          className="fw-bold text-center"
+          className="fw-bold text-center mx-5"
         >
           Meus agendamentos
         </Typography>

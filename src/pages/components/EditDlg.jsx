@@ -10,28 +10,25 @@ import './EditDlg.css'
 
 const EditDlg = (props) => {
   const [values, setValues] = useState(new Map());
-  
-  const closeEditDlg = props.onClose();
 
   useEffect(() => {
-
-    const escFunction =  (event) => {
-      if (event.key === "Escape") {
-        closeEditDlg();
-      }
-    }
-
     document.addEventListener("keydown", escFunction, false);
     return () => {
       document.removeEventListener("keydown", escFunction, false);
     };
-  }, [closeEditDlg]);
+  }, []);
+
+  const escFunction = (event) => {
+    if (event.key === "Escape") {
+      props.onClose();
+    }
+  }
 
   const inputHandler = (e, paramName) => {
     setValues(vals => vals.set(paramName, e.target.value));
   }
 
-  const CancelarBtn = styled(Button)(() => ({
+  const CancelarBtn = styled(Button)(({theme}) => ({
     color: '#00205B',
     backgroundColor: '#BFC7D6',
     borderRadius: "6px",
@@ -40,7 +37,7 @@ const EditDlg = (props) => {
     },
   }));
 
-  const ConfirmarBtn = styled(Button)(() => ({
+  const ConfirmarBtn = styled(Button)(({theme}) => ({
     color: '#FFFFFF',
     backgroundColor: '#00205B',
     borderRadius: "6px",
